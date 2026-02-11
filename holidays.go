@@ -13,16 +13,15 @@ import (
 func IsHoliday(date time.Time, countryCode string) bool {
 	holidays := GetHolidays(countryCode, date.Year())
 
-	// Normalize date to midnight for comparison
 	normalizedDate := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC)
 
-	// Binary search since holidays are sorted by date
 	idx := sort.Search(len(holidays), func(i int) bool {
 		return !holidays[i].Date.Before(normalizedDate)
 	})
 
 	if idx < len(holidays) {
 		holidayDate := holidays[idx].Date
+
 		return holidayDate.Year() == date.Year() &&
 			holidayDate.Month() == date.Month() &&
 			holidayDate.Day() == date.Day()
@@ -37,7 +36,6 @@ func IsHoliday(date time.Time, countryCode string) bool {
 func GetHolidays(countryCode string, year int) []Holiday {
 	key := cacheKey(countryCode, year)
 
-	// Check cache with read lock
 	cacheMutex.RLock()
 	if holidays, exists := holidaysCache[key]; exists {
 		cacheMutex.RUnlock()
@@ -45,10 +43,8 @@ func GetHolidays(countryCode string, year int) []Holiday {
 	}
 	cacheMutex.RUnlock()
 
-	// Auto-load provider if not already loaded
 	ensureProviderLoaded(countryCode)
 
-	// Provider lookup with read lock
 	registryMutex.RLock()
 	provider, exists := registry[countryCode]
 	registryMutex.RUnlock()
@@ -59,12 +55,10 @@ func GetHolidays(countryCode string, year int) []Holiday {
 
 	holidays := provider.RegisterHolidays(year)
 
-	// Sort holidays by date for binary search optimization
 	sort.Slice(holidays, func(i, j int) bool {
 		return holidays[i].Date.Before(holidays[j].Date)
 	})
 
-	// Cache with write lock
 	cacheMutex.Lock()
 	holidaysCache[key] = holidays
 	cacheMutex.Unlock()
@@ -85,7 +79,6 @@ func GetHolidaysInRange(countryCode string, startDate, endDate time.Time) []Holi
 		holidays := GetHolidays(countryCode, year)
 
 		for _, holiday := range holidays {
-			// Check if holiday falls within the date range
 			if (holiday.Date.Equal(startDate) || holiday.Date.After(startDate)) &&
 				(holiday.Date.Equal(endDate) || holiday.Date.Before(endDate)) {
 				result = append(result, holiday)

@@ -3,9 +3,7 @@
 [![CI](https://github.com/bobadilla-tech/holidays-per-country/actions/workflows/ci.yml/badge.svg)](https://github.com/bobadilla-tech/holidays-per-country/actions/workflows/ci.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/bobadilla-tech/holidays-per-country.svg)](https://pkg.go.dev/github.com/bobadilla-tech/holidays-per-country)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bobadilla-tech/holidays-per-country)](https://goreportcard.com/report/github.com/bobadilla-tech/holidays-per-country)
-[![codecov](https://codecov.io/gh/bobadilla-tech/holidays-per-country/branch/main/graph/badge.svg)](https://codecov.io/gh/bobadilla-tech/holidays-per-country)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub release](https://img.shields.io/github/v/release/bobadilla-tech/holidays-per-country)](https://github.com/bobadilla-tech/holidays-per-country/releases)
 
 A pure Go library for determining public holidays across different countries and
 their subdivisions (states, provinces, regions). Provides accurate holiday

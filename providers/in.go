@@ -2,11 +2,11 @@
 // This file contains the provider for India (IN).
 package providers
 
-import "github.com/bobadilla-tech/holidays-per-country/providers/internal"
+import "github.com/bobadilla-tech/holidays-per-country/common"
 
 // IndiaProvider provides public holidays for India (stub implementation)
 type IndiaProvider struct{}
 
-func (IndiaProvider) RegisterHolidays(year int) []internal.Holiday {
-	return []internal.Holiday{}
+func (IndiaProvider) RegisterHolidays(year int) []common.Holiday {
+	return []common.Holiday{}
 }

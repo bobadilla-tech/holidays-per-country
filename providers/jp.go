@@ -6,18 +6,19 @@ import (
 	"math"
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // JapanProvider provides public holidays for Japan
 type JapanProvider struct{}
 
-func (JapanProvider) RegisterHolidays(year int) []internal.Holiday {
+func (JapanProvider) RegisterHolidays(year int) []common.Holiday {
 	secondMondayInJanuary := internal.FindDay(year, time.January, time.Monday, 2)
 	thirdMondayInJuly := internal.FindDay(year, time.July, time.Monday, 3)
 	thirdMondayInSeptember := internal.FindDay(year, time.September, time.Monday, 3)
 
-	holiday := []internal.Holiday{
+	holiday := []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHolidayFromTime(secondMondayInJanuary, "Coming of Age Day", nil),
 		internal.NewHoliday(year, time.February, 11, "Foundation Day", nil),
@@ -48,7 +49,7 @@ func (JapanProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func emperorsBirthdayJP(year int) *internal.Holiday {
+func emperorsBirthdayJP(year int) *common.Holiday {
 	if year < 1868 {
 		return nil
 	}
@@ -79,7 +80,7 @@ func emperorsBirthdayJP(year int) *internal.Holiday {
 	return &holiday
 }
 
-func sportsDayJP(year int) *internal.Holiday {
+func sportsDayJP(year int) *common.Holiday {
 	if year <= 1965 {
 		return nil
 	}
@@ -114,7 +115,7 @@ func sportsDayJP(year int) *internal.Holiday {
 	return nil
 }
 
-func vernalEquinoxDayJP(year int) *internal.Holiday {
+func vernalEquinoxDayJP(year int) *common.Holiday {
 	day, ok := vernalEquinoxDay(year)
 	if !ok {
 		return nil
@@ -123,7 +124,7 @@ func vernalEquinoxDayJP(year int) *internal.Holiday {
 	return &holiday
 }
 
-func autumnalEquinoxDayJP(year int) *internal.Holiday {
+func autumnalEquinoxDayJP(year int) *common.Holiday {
 	day, ok := autumnalEquinoxDay(year)
 	if !ok {
 		return nil

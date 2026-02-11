@@ -5,18 +5,19 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // MexicoProvider provides public holidays for Mexico
 type MexicoProvider struct{}
 
-func (MexicoProvider) RegisterHolidays(year int) []internal.Holiday {
+func (MexicoProvider) RegisterHolidays(year int) []common.Holiday {
 	firstMondayOfFebruary := internal.FindDay(year, time.February, time.Monday, 1)
 	thirdMondayOfMarch := internal.FindDay(year, time.March, time.Monday, 3)
 	thirdMondayOfNovember := internal.FindDay(year, time.November, time.Monday, 3)
 
-	holiday := []internal.Holiday{
+	holiday := []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHolidayFromTime(firstMondayOfFebruary, "Constitution Day", nil),
 		internal.NewHolidayFromTime(thirdMondayOfMarch, "Benito Juarez's Birthday", nil),
@@ -37,7 +38,7 @@ func (MexicoProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func inaugurationDayMX(year int) *internal.Holiday {
+func inaugurationDayMX(year int) *common.Holiday {
 	name := "Inauguration Day"
 
 	switch year {

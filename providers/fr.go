@@ -5,18 +5,19 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // FranceProvider provides public holidays for France
 type FranceProvider struct{}
 
-func (FranceProvider) RegisterHolidays(year int) []internal.Holiday {
+func (FranceProvider) RegisterHolidays(year int) []common.Holiday {
 	return baseHolidaysFR(year)
 }
 
-func baseHolidaysFR(year int) []internal.Holiday {
-	return []internal.Holiday{
+func baseHolidaysFR(year int) []common.Holiday {
+	return []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", nil),
 		internal.NewHoliday(year, time.May, 8, "Victory in Europe Day", nil),

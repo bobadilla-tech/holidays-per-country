@@ -6,6 +6,8 @@ package holidays
 import (
 	"sort"
 	"time"
+
+	"github.com/bobadilla-tech/holidays-per-country/common"
 )
 
 // IsHoliday checks if a specific date is a public holiday in the given country.
@@ -33,7 +35,7 @@ func IsHoliday(date time.Time, countryCode string) bool {
 
 // GetHolidays returns all public holidays for a specific country and year.
 // Results are cached for performance. Thread-safe for concurrent use.
-func GetHolidays(countryCode string, year int) []Holiday {
+func GetHolidays(countryCode string, year int) []common.Holiday {
 	key := cacheKey(countryCode, year)
 
 	// Check cache with read lock
@@ -47,7 +49,7 @@ func GetHolidays(countryCode string, year int) []Holiday {
 	// Provider lookup
 	provider, exists := registry[countryCode]
 	if !exists {
-		return []Holiday{}
+		return []common.Holiday{}
 	}
 
 	holidays := provider.RegisterHolidays(year)
@@ -67,12 +69,12 @@ func GetHolidays(countryCode string, year int) []Holiday {
 
 // GetHolidaysInRange returns all holidays within a date range for a specific country.
 // Results are returned in chronological order.
-func GetHolidaysInRange(countryCode string, startDate, endDate time.Time) []Holiday {
+func GetHolidaysInRange(countryCode string, startDate, endDate time.Time) []common.Holiday {
 	if startDate.After(endDate) {
-		return []Holiday{}
+		return []common.Holiday{}
 	}
 
-	var result []Holiday
+	var result []common.Holiday
 
 	for year := startDate.Year(); year <= endDate.Year(); year++ {
 		holidays := GetHolidays(countryCode, year)

@@ -5,13 +5,14 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // UnitedStatesProvider provides public holidays for the United States
 type UnitedStatesProvider struct{}
 
-func (UnitedStatesProvider) RegisterHolidays(year int) []internal.Holiday {
+func (UnitedStatesProvider) RegisterHolidays(year int) []common.Holiday {
 	holiday := baseHolidaysUS(year)
 	if h := juneteenthUS(year); h != nil {
 		holiday = append(holiday, *h)
@@ -35,14 +36,14 @@ func (UnitedStatesProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func baseHolidaysUS(year int) []internal.Holiday {
+func baseHolidaysUS(year int) []common.Holiday {
 	thirdMondayInJanuary := internal.FindDay(year, time.January, time.Monday, 3)
 	thirdMondayInFebruary := internal.FindDay(year, time.February, time.Monday, 3)
 	lastMondayInMay := internal.FindLastDay(year, time.May, time.Monday)
 	firstMondayInSeptember := internal.FindDay(year, time.September, time.Monday, 1)
 	fourthThursdayInNovember := internal.FindDay(year, time.November, time.Thursday, 4)
 
-	return []internal.Holiday{
+	return []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHolidayFromTime(thirdMondayInJanuary, "Martin Luther King, Jr. Day", nil),
 		internal.NewHolidayFromTime(thirdMondayInFebruary, "Washington's Birthday", nil),
@@ -55,7 +56,7 @@ func baseHolidaysUS(year int) []internal.Holiday {
 	}
 }
 
-func juneteenthUS(year int) *internal.Holiday {
+func juneteenthUS(year int) *common.Holiday {
 	if year < 2021 {
 		return nil
 	}
@@ -63,13 +64,13 @@ func juneteenthUS(year int) *internal.Holiday {
 	return &holiday
 }
 
-func goodFridayUS(year int) *internal.Holiday {
+func goodFridayUS(year int) *common.Holiday {
 	holiday := internal.NewHolidayFromTime(internal.CatholicGoodFriday(year), "Good Friday", []string{
 		"US-CT", "US-DE", "US-HI", "US-IN", "US-KY", "US-LA", "US-NC", "US-ND", "US-NJ", "US-TN"})
 	return &holiday
 }
 
-func columbusDayUS(year int) *internal.Holiday {
+func columbusDayUS(year int) *common.Holiday {
 	secondMondayInOctober := internal.FindDay(year, time.October, time.Monday, 2)
 	holiday := internal.NewHolidayFromTime(secondMondayInOctober, "Columbus Day", []string{
 		"US-AL", "US-AZ", "US-CO", "US-CT", "US-GA", "US-ID", "US-IL", "US-IN", "US-IA", "US-KS",
@@ -79,18 +80,18 @@ func columbusDayUS(year int) *internal.Holiday {
 	return &holiday
 }
 
-func trumanDayUS(year int) *internal.Holiday {
+func trumanDayUS(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.May, 8, "Truman Day", []string{"US-MO"})
 	return &holiday
 }
 
-func lincolnsBirthdayUS(year int) *internal.Holiday {
+func lincolnsBirthdayUS(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.February, 12, "Lincoln's Birthday", []string{
 		"US-CA", "US-CT", "US-IL", "US-IN", "US-KY", "US-MI", "US-NY", "US-MO", "US-OH"})
 	return &holiday
 }
 
-func indigenousPeoplesDayUS(year int) *internal.Holiday {
+func indigenousPeoplesDayUS(year int) *common.Holiday {
 	if year < 1988 {
 		return nil
 	}

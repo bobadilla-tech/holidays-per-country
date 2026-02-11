@@ -5,13 +5,14 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // CanadaProvider provides public holidays for Canada and its provinces
 type CanadaProvider struct{}
 
-func (CanadaProvider) RegisterHolidays(year int) []internal.Holiday {
+func (CanadaProvider) RegisterHolidays(year int) []common.Holiday {
 	thirdMondayInFebruary := internal.FindDay(year, time.February, time.Monday, 3)
 	mondayOnOrBeforeMay25 := internal.FindDayBefore(time.Date(year, time.May, 25, 0, 0, 0, 0, time.UTC), time.Monday)
 	firstMondayInAugust := internal.FindDay(year, time.August, time.Monday, 1)
@@ -19,7 +20,7 @@ func (CanadaProvider) RegisterHolidays(year int) []internal.Holiday {
 	firstMondayInSeptember := internal.FindDay(year, time.September, time.Monday, 1)
 	secondMondayInOctober := internal.FindDay(year, time.October, time.Monday, 2)
 
-	holiday := []internal.Holiday{
+	holiday := []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHolidayFromTime(thirdMondayInFebruary, "Louis Riel Day", []string{"CA-MB"}),
 		internal.NewHolidayFromTime(thirdMondayInFebruary, "Islander Day", []string{"CA-PE"}),
@@ -60,7 +61,7 @@ func (CanadaProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func funeralForQueenElizabeth(year int) *internal.Holiday {
+func funeralForQueenElizabeth(year int) *common.Holiday {
 	if year != 2022 {
 		return nil
 	}
@@ -69,33 +70,33 @@ func funeralForQueenElizabeth(year int) *internal.Holiday {
 	return &holiday
 }
 
-func familyDay(year int) []internal.Holiday {
+func familyDay(year int) []common.Holiday {
 	name := "Family Day"
 	thirdMondayInFebruary := internal.FindDay(year, time.February, time.Monday, 3)
 
 	if year < 2019 {
 		secondMondayInFebruary := internal.FindDay(year, time.February, time.Monday, 2)
-		return []internal.Holiday{
+		return []common.Holiday{
 			internal.NewHolidayFromTime(secondMondayInFebruary, name, []string{"CA-BC"}),
 			internal.NewHolidayFromTime(thirdMondayInFebruary, name, []string{"CA-AB", "CA-ON", "CA-SK"}),
 		}
 	}
 
-	return []internal.Holiday{
+	return []common.Holiday{
 		internal.NewHolidayFromTime(thirdMondayInFebruary, name, []string{"CA-AB", "CA-BC", "CA-NB", "CA-ON", "CA-SK"}),
 	}
 }
 
-func canadaDay(year int) []internal.Holiday {
+func canadaDay(year int) []common.Holiday {
 	name := "Canada Day"
 	canadaDay := time.Date(year, time.July, 1, 0, 0, 0, 0, time.UTC)
 
 	if canadaDay.Weekday() == time.Sunday {
-		return []internal.Holiday{
+		return []common.Holiday{
 			internal.NewHolidayFromTime(canadaDay, name, []string{"CA-BC", "CA-MB", "CA-NB", "CA-NL", "CA-NS", "CA-ON", "CA-PE", "CA-QC", "CA-SK", "CA-NT", "CA-NU", "CA-YT"}),
 			internal.NewHolidayFromTime(canadaDay.AddDate(0, 0, 1), name, []string{"CA-AB"}),
 		}
 	}
 
-	return []internal.Holiday{internal.NewHolidayFromTime(canadaDay, name, nil)}
+	return []common.Holiday{internal.NewHolidayFromTime(canadaDay, name, nil)}
 }

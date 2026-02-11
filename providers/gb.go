@@ -5,17 +5,18 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // UnitedKingdomProvider provides public holidays for the United Kingdom
 type UnitedKingdomProvider struct{}
 
-func (UnitedKingdomProvider) RegisterHolidays(year int) []internal.Holiday {
+func (UnitedKingdomProvider) RegisterHolidays(year int) []common.Holiday {
 	firstMondayInAugust := internal.FindDay(year, time.August, time.Monday, 1)
 	lastMondayInAugust := internal.FindLastDay(year, time.August, time.Monday)
 
-	holiday := []internal.Holiday{
+	holiday := []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", []string{"GB-ENG", "GB-NIR", "GB-SCT", "GB-WLS"}),
 		internal.NewHoliday(year, time.January, 2, "2 January", []string{"GB-SCT"}),
 		internal.NewHoliday(year, time.March, 17, "Saint Patrick's Day", []string{"GB-NIR"}),
@@ -51,7 +52,7 @@ func (UnitedKingdomProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func springBankHoliday(year int) *internal.Holiday {
+func springBankHoliday(year int) *common.Holiday {
 	if year == 2022 {
 		holiday := internal.NewHoliday(year, time.June, 2, "Spring Bank Holiday", nil)
 		return &holiday
@@ -62,7 +63,7 @@ func springBankHoliday(year int) *internal.Holiday {
 	return &holiday
 }
 
-func queensPlatinumJubilee(year int) *internal.Holiday {
+func queensPlatinumJubilee(year int) *common.Holiday {
 	if year != 2022 {
 		return nil
 	}
@@ -70,7 +71,7 @@ func queensPlatinumJubilee(year int) *internal.Holiday {
 	return &holiday
 }
 
-func queensStateFuneral(year int) *internal.Holiday {
+func queensStateFuneral(year int) *common.Holiday {
 	if year != 2022 {
 		return nil
 	}
@@ -78,7 +79,7 @@ func queensStateFuneral(year int) *internal.Holiday {
 	return &holiday
 }
 
-func coronationBankHoliday(year int) *internal.Holiday {
+func coronationBankHoliday(year int) *common.Holiday {
 	if year != 2023 {
 		return nil
 	}
@@ -86,7 +87,7 @@ func coronationBankHoliday(year int) *internal.Holiday {
 	return &holiday
 }
 
-func worldCupBankHoliday(year int) *internal.Holiday {
+func worldCupBankHoliday(year int) *common.Holiday {
 	if year != 2026 {
 		return nil
 	}
@@ -94,7 +95,7 @@ func worldCupBankHoliday(year int) *internal.Holiday {
 	return &holiday
 }
 
-func earlyMayBankHoliday(year int) *internal.Holiday {
+func earlyMayBankHoliday(year int) *common.Holiday {
 	if year == 1995 {
 		holiday := internal.NewHoliday(year, time.May, 8, "Early May Bank Holiday", nil)
 		return &holiday

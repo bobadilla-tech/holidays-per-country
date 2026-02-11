@@ -5,13 +5,14 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // GermanyProvider provides public holidays for Germany and its federal states
 type GermanyProvider struct{}
 
-func (GermanyProvider) RegisterHolidays(year int) []internal.Holiday {
+func (GermanyProvider) RegisterHolidays(year int) []common.Holiday {
 	holiday := baseHolidaysDE(year)
 	if h := internationalWomensDayDE(year); h != nil {
 		holiday = append(holiday, *h)
@@ -32,8 +33,8 @@ func (GermanyProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func baseHolidaysDE(year int) []internal.Holiday {
-	return []internal.Holiday{
+func baseHolidaysDE(year int) []common.Holiday {
+	return []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.January, 6, "Epiphany", []string{"DE-BW", "DE-BY", "DE-ST"}),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", []string{"DE-BW", "DE-BY", "DE-BE", "DE-BB", "DE-HB", "DE-HH", "DE-HE", "DE-MV", "DE-NI", "DE-NW", "DE-RP", "DE-SL", "DE-SN", "DE-ST", "DE-TH"}),
@@ -52,7 +53,7 @@ func baseHolidaysDE(year int) []internal.Holiday {
 	}
 }
 
-func internationalWomensDayDE(year int) *internal.Holiday {
+func internationalWomensDayDE(year int) *common.Holiday {
 	if year >= 2019 && year <= 2022 {
 		holiday := internal.NewHoliday(year, time.March, 8, "International Women's Day", []string{"DE-BE"})
 		return &holiday
@@ -65,7 +66,7 @@ func internationalWomensDayDE(year int) *internal.Holiday {
 	return nil
 }
 
-func reformationDayDE(year int) *internal.Holiday {
+func reformationDayDE(year int) *common.Holiday {
 	if year == 2017 {
 		holiday := internal.NewHoliday(year, time.October, 31, "Reformation Day", nil)
 		return &holiday
@@ -79,7 +80,7 @@ func reformationDayDE(year int) *internal.Holiday {
 	return &holiday
 }
 
-func repentanceAndPrayerDayDE(year int) *internal.Holiday {
+func repentanceAndPrayerDayDE(year int) *common.Holiday {
 	christmas := time.Date(year, time.December, 25, 0, 0, 0, 0, time.UTC)
 	sundayBeforeChristmas := internal.FindDayBefore(christmas, time.Sunday)
 	adventSunday := sundayBeforeChristmas.AddDate(0, 0, -21)
@@ -109,7 +110,7 @@ func repentanceAndPrayerDayDE(year int) *internal.Holiday {
 	return nil
 }
 
-func liberationDayDE(year int) *internal.Holiday {
+func liberationDayDE(year int) *common.Holiday {
 	if year == 2020 || year == 2025 {
 		holiday := internal.NewHoliday(year, time.May, 8, "Liberation Day", []string{"DE-BE"})
 		return &holiday
@@ -118,7 +119,7 @@ func liberationDayDE(year int) *internal.Holiday {
 	return nil
 }
 
-func worldChildrensDayDE(year int) *internal.Holiday {
+func worldChildrensDayDE(year int) *common.Holiday {
 	if year < 2019 {
 		return nil
 	}

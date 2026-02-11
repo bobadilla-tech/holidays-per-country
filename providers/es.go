@@ -5,14 +5,15 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // SpainProvider provides public holidays for Spain and its autonomous communities
 type SpainProvider struct{}
 
-func (SpainProvider) RegisterHolidays(year int) []internal.Holiday {
-	holiday := []internal.Holiday{
+func (SpainProvider) RegisterHolidays(year int) []common.Holiday {
+	holiday := []common.Holiday{
 		internal.NewHoliday(year, time.January, 6, "Epiphany", nil),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", nil),
 		internal.NewHoliday(year, time.October, 12, "National Day of Spain", nil),
@@ -108,34 +109,34 @@ func (SpainProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func newYearsDayES(year int) []internal.Holiday {
+func newYearsDayES(year int) []common.Holiday {
 	base := internal.NewHoliday(year, time.January, 1, "New Year's Day", nil)
 	if year == 2023 {
-		return []internal.Holiday{
+		return []common.Holiday{
 			base,
 			internal.NewHoliday(year, time.January, 1, "New Year's Day", []string{"ES-AN", "ES-AR", "ES-AS", "ES-CL", "ES-MC"}),
 		}
 	}
 
-	return []internal.Holiday{base}
+	return []common.Holiday{base}
 }
 
-func easterMondayES(year int) *internal.Holiday {
+func easterMondayES(year int) *common.Holiday {
 	holiday := internal.NewHolidayFromTime(internal.CatholicEasterMonday(year), "Easter Monday", []string{"ES-CT", "ES-IB", "ES-RI", "ES-NC", "ES-PV", "ES-VC"})
 	return &holiday
 }
 
-func corpusChristiES(year int) *internal.Holiday {
+func corpusChristiES(year int) *common.Holiday {
 	holiday := internal.NewHolidayFromTime(internal.CatholicCorpusChristi(year), "Corpus Christi", []string{"ES-CM"})
 	return &holiday
 }
 
-func maundyThursdayES(year int) *internal.Holiday {
+func maundyThursdayES(year int) *common.Holiday {
 	holiday := internal.NewHolidayFromTime(internal.CatholicMaundyThursday(year), "Maundy Thursday", []string{"ES-AN", "ES-AR", "ES-CL", "ES-CM", "ES-CN", "ES-EX", "ES-GA", "ES-IB", "ES-RI", "ES-MD", "ES-MC", "ES-NC", "ES-AS", "ES-PV", "ES-CB"})
 	return &holiday
 }
 
-func christmasDayES(year int) *internal.Holiday {
+func christmasDayES(year int) *common.Holiday {
 	if year == 2022 {
 		holiday := internal.NewHoliday(year, time.December, 26, "Christmas Day", []string{"ES-AN", "ES-AR", "ES-AS", "ES-CN", "ES-CB", "ES-CL", "ES-CM", "ES-EX", "ES-GA", "ES-IB", "ES-RI", "ES-MD", "ES-MC", "ES-NC"})
 		return &holiday
@@ -145,7 +146,7 @@ func christmasDayES(year int) *internal.Holiday {
 	return &holiday
 }
 
-func whitMondayES(year int) *internal.Holiday {
+func whitMondayES(year int) *common.Holiday {
 	if year != 2022 {
 		return nil
 	}
@@ -153,17 +154,17 @@ func whitMondayES(year int) *internal.Holiday {
 	return &holiday
 }
 
-func assumptionES(year int) *internal.Holiday {
+func assumptionES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.August, 15, "Assumption", nil)
 	return &holiday
 }
 
-func dayOfMadridES(year int) *internal.Holiday {
+func dayOfMadridES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.May, 2, "Day of Madrid", []string{"ES-MD"})
 	return &holiday
 }
 
-func stJosephsDayES(year int) *internal.Holiday {
+func stJosephsDayES(year int) *common.Holiday {
 	if year < 2000 {
 		return nil
 	}
@@ -196,7 +197,7 @@ func stJosephsDayES(year int) *internal.Holiday {
 	return &holiday
 }
 
-func santiagoApostolES(year int) *internal.Holiday {
+func santiagoApostolES(year int) *common.Holiday {
 	var subdivisions []string
 	switch year {
 	case 2017:
@@ -221,62 +222,62 @@ func santiagoApostolES(year int) *internal.Holiday {
 	return &holiday
 }
 
-func stStephensDayES(year int) *internal.Holiday {
+func stStephensDayES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.December, 26, "St. Stephen's Day", []string{"ES-CT"})
 	return &holiday
 }
 
-func dayOfValencianCommunityES(year int) *internal.Holiday {
+func dayOfValencianCommunityES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.October, 9, "Day of the Valencian Community", []string{"ES-VC"})
 	return &holiday
 }
 
-func laBienAparecidaES(year int) *internal.Holiday {
+func laBienAparecidaES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.September, 15, "Feast of Our Lady of Bien Aparecida", []string{"ES-CB"})
 	return &holiday
 }
 
-func nationalDayOfCataloniaES(year int) *internal.Holiday {
+func nationalDayOfCataloniaES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.September, 11, "National Day of Catalonia", []string{"ES-CT"})
 	return &holiday
 }
 
-func dayOfExtremaduraES(year int) *internal.Holiday {
+func dayOfExtremaduraES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.September, 8, "Day of Extremadura", []string{"ES-EX"})
 	return &holiday
 }
 
-func dayOfAsturiasES(year int) *internal.Holiday {
+func dayOfAsturiasES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.September, 8, "Day of Asturias", []string{"ES-AS"})
 	return &holiday
 }
 
-func dayOfCantabrianInstitutionsES(year int) *internal.Holiday {
+func dayOfCantabrianInstitutionsES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.July, 28, "Day of the Cantabrian Institutions", []string{"ES-CB"})
 	return &holiday
 }
 
-func stJohnsDayES(year int) *internal.Holiday {
+func stJohnsDayES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.June, 24, "St. John's Day", []string{"ES-CT", "ES-VC"})
 	return &holiday
 }
 
-func dayOfLaRiojaES(year int) *internal.Holiday {
+func dayOfLaRiojaES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.June, 9, "Day of La Rioja", []string{"ES-RI"})
 	return &holiday
 }
 
-func dayOfMurciaES(year int) *internal.Holiday {
+func dayOfMurciaES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.June, 9, "Day of Murcia", []string{"ES-MC"})
 	return &holiday
 }
 
-func dayOfCastillaLaManchaES(year int) *internal.Holiday {
+func dayOfCastillaLaManchaES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.May, 31, "Day of Castilla-La Mancha", []string{"ES-CM"})
 	return &holiday
 }
 
-func castileAndLeonDayES(year int) *internal.Holiday {
+func castileAndLeonDayES(year int) *common.Holiday {
 	if year == 2023 {
 		return nil
 	}
@@ -284,32 +285,32 @@ func castileAndLeonDayES(year int) *internal.Holiday {
 	return &holiday
 }
 
-func galicianLiteratureDayES(year int) *internal.Holiday {
+func galicianLiteratureDayES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.May, 17, "Galician Literature Day", []string{"ES-GA"})
 	return &holiday
 }
 
-func dayOfAragonES(year int) *internal.Holiday {
+func dayOfAragonES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.April, 23, "Day of Aragon", []string{"ES-AR"})
 	return &holiday
 }
 
-func dayOfBalearicIslandsES(year int) *internal.Holiday {
+func dayOfBalearicIslandsES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.March, 1, "Day of the Balearic Islands", []string{"ES-IB"})
 	return &holiday
 }
 
-func dayOfAndaluciaES(year int) *internal.Holiday {
+func dayOfAndaluciaES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.February, 28, "Day of Andalucia", []string{"ES-AN"})
 	return &holiday
 }
 
-func dayOfCanaryIslandsES(year int) *internal.Holiday {
+func dayOfCanaryIslandsES(year int) *common.Holiday {
 	holiday := internal.NewHoliday(year, time.May, 30, "Day of the Canary Islands", []string{"ES-CN"})
 	return &holiday
 }
 
-func carnivalTuesdayES(year int) *internal.Holiday {
+func carnivalTuesdayES(year int) *common.Holiday {
 	if year != 2023 {
 		return nil
 	}

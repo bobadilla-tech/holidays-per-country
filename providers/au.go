@@ -5,13 +5,14 @@ package providers
 import (
 	"time"
 
+	"github.com/bobadilla-tech/holidays-per-country/common"
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
 // AustraliaProvider provides public holidays for Australia and its states/territories
 type AustraliaProvider struct{}
 
-func (AustraliaProvider) RegisterHolidays(year int) []internal.Holiday {
+func (AustraliaProvider) RegisterHolidays(year int) []common.Holiday {
 	holiday := baseHolidaysAU(year)
 	holiday = append(holiday, labourDayVariationsAU(year)...)
 	holiday = append(holiday, monarchBirthdayAU(year)...)
@@ -29,7 +30,7 @@ func (AustraliaProvider) RegisterHolidays(year int) []internal.Holiday {
 	return holiday
 }
 
-func baseHolidaysAU(year int) []internal.Holiday {
+func baseHolidaysAU(year int) []common.Holiday {
 	secondMondayInMarch := internal.FindDay(year, time.March, time.Monday, 2)
 	firstMondayInMay := internal.FindDay(year, time.May, time.Monday, 1)
 	may27 := time.Date(year, time.May, 27, 0, 0, 0, 0, time.UTC)
@@ -38,7 +39,7 @@ func baseHolidaysAU(year int) []internal.Holiday {
 	firstMondayInAugust := internal.FindDay(year, time.August, time.Monday, 1)
 	firstTuesdayInNovember := internal.FindDay(year, time.November, time.Tuesday, 1)
 
-	return []internal.Holiday{
+	return []common.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.January, 26, "Australia Day", nil),
 		internal.NewHolidayFromTime(secondMondayInMarch, "Canberra Day", []string{"AU-ACT"}),
@@ -58,13 +59,13 @@ func baseHolidaysAU(year int) []internal.Holiday {
 	}
 }
 
-func labourDayVariationsAU(year int) []internal.Holiday {
+func labourDayVariationsAU(year int) []common.Holiday {
 	firstMondayInMarch := internal.FindDay(year, time.March, time.Monday, 1)
 	secondMondayInMarch := internal.FindDay(year, time.March, time.Monday, 2)
 	firstMondayInMay := internal.FindDay(year, time.May, time.Monday, 1)
 	firstMondayInOctober := internal.FindDay(year, time.October, time.Monday, 1)
 
-	return []internal.Holiday{
+	return []common.Holiday{
 		internal.NewHolidayFromTime(firstMondayInMarch, "Labour Day", []string{"AU-WA"}),
 		internal.NewHolidayFromTime(secondMondayInMarch, "Labour Day", []string{"AU-VIC"}),
 		internal.NewHolidayFromTime(firstMondayInMay, "Labour Day", []string{"AU-QLD"}),
@@ -72,7 +73,7 @@ func labourDayVariationsAU(year int) []internal.Holiday {
 	}
 }
 
-func easterSundayAU(year int) *internal.Holiday {
+func easterSundayAU(year int) *common.Holiday {
 	var subdivisions []string
 	switch {
 	case year >= 2024:
@@ -95,7 +96,7 @@ func easterSundayAU(year int) *internal.Holiday {
 	return &holiday
 }
 
-func monarchBirthdayAU(year int) []internal.Holiday {
+func monarchBirthdayAU(year int) []common.Holiday {
 	secondMondayInJune := internal.FindDay(year, time.June, time.Monday, 2)
 	lastMondayInSeptember := internal.FindLastDay(year, time.September, time.Monday)
 	firstMondayInOctober := internal.FindDay(year, time.October, time.Monday, 1)
@@ -105,14 +106,14 @@ func monarchBirthdayAU(year int) []internal.Holiday {
 		name = "King's Birthday"
 	}
 
-	return []internal.Holiday{
+	return []common.Holiday{
 		internal.NewHolidayFromTime(secondMondayInJune, name, []string{"AU-ACT", "AU-NSW", "AU-NT", "AU-SA", "AU-TAS", "AU-VIC"}),
 		internal.NewHolidayFromTime(lastMondayInSeptember, name, []string{"AU-WA"}),
 		internal.NewHolidayFromTime(firstMondayInOctober, name, []string{"AU-QLD"}),
 	}
 }
 
-func nationalMourningAU(year int) *internal.Holiday {
+func nationalMourningAU(year int) *common.Holiday {
 	if year != 2022 {
 		return nil
 	}
@@ -120,7 +121,7 @@ func nationalMourningAU(year int) *internal.Holiday {
 	return &holiday
 }
 
-func aflGrandFinalAU(year int) *internal.Holiday {
+func aflGrandFinalAU(year int) *common.Holiday {
 	switch year {
 	case 2016, 2017, 2018, 2019, 2021, 2023, 2024, 2025:
 		lastFridayInSeptember := internal.FindLastDay(year, time.September, time.Friday)

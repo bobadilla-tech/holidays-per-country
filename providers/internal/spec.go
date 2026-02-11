@@ -4,11 +4,13 @@ package internal
 
 import (
 	"time"
+
+	"github.com/bobadilla-tech/holidays-per-country/common"
 )
 
 // NewHoliday creates a new Holiday instance with a fixed date specified by year, month, and day.
-func NewHoliday(year int, month time.Month, day int, name string, subdivisions []string) Holiday {
-	return Holiday{
+func NewHoliday(year int, month time.Month, day int, name string, subdivisions []string) common.Holiday {
+	return common.Holiday{
 		Date:         time.Date(year, month, day, 0, 0, 0, 0, time.UTC),
 		Name:         name,
 		Subdivisions: subdivisions,
@@ -18,8 +20,8 @@ func NewHoliday(year int, month time.Month, day int, name string, subdivisions [
 
 // NewHolidayFromTime creates a new Holiday instance from an existing time.Time value.
 // This is typically used for holidays with variable dates that are calculated.
-func NewHolidayFromTime(date time.Time, name string, subdivisions []string) Holiday {
-	return Holiday{
+func NewHolidayFromTime(date time.Time, name string, subdivisions []string) common.Holiday {
+	return common.Holiday{
 		Date:         date,
 		Name:         name,
 		Subdivisions: subdivisions,

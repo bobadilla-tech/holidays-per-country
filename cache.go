@@ -3,6 +3,8 @@ package holidays
 import (
 	"fmt"
 	"sync"
+
+	"github.com/bobadilla-tech/holidays-per-country/common"
 )
 
 func cacheKey(countryCode string, year int) string {
@@ -10,6 +12,6 @@ func cacheKey(countryCode string, year int) string {
 }
 
 var (
-	holidaysCache = map[string][]Holiday{}
+	holidaysCache = map[string][]common.Holiday{}
 	cacheMutex    sync.RWMutex
 )

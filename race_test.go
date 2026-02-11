@@ -8,20 +8,19 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country"
 )
 
-// TestLazyLoadRaceCondition tests for race conditions in LazyLoad
-// Run with: go test -race -run TestLazyLoadRaceCondition
-func TestLazyLoadRaceCondition(t *testing.T) {
+// TestAutoLoadRaceCondition tests for race conditions in automatic provider loading
+// Run with: go test -race -run TestAutoLoadRaceCondition
+func TestAutoLoadRaceCondition(t *testing.T) {
 	const numGoroutines = 10
 
 	var wg sync.WaitGroup
 	wg.Add(numGoroutines)
 
-	// Simulate multiple concurrent requests trying to lazy load the same country
+	// Simulate multiple concurrent requests trying to auto-load the same country
 	for i := 0; i < numGoroutines; i++ {
 		go func() {
 			defer wg.Done()
-			holidays.LazyLoad("US")
-			// Also try to use it immediately
+			// Auto-loading happens automatically
 			holidays.GetHolidays("US", 2024)
 		}()
 	}
@@ -39,7 +38,7 @@ func TestConcurrentDifferentCountries(t *testing.T) {
 	for _, country := range countries {
 		go func(c string) {
 			defer wg.Done()
-			holidays.LazyLoad(c)
+			// Auto-loading happens automatically
 			holidays.GetHolidays(c, 2024)
 		}(country)
 	}
@@ -47,10 +46,9 @@ func TestConcurrentDifferentCountries(t *testing.T) {
 	wg.Wait()
 }
 
-// TestConcurrentReads tests that concurrent reads are safe after lazy loading
+// TestConcurrentReads tests that concurrent reads are safe
 func TestConcurrentReads(t *testing.T) {
-	// Pre-load
-	holidays.LazyLoad("US")
+	// Pre-warm cache
 	holidays.GetHolidays("US", 2024)
 
 	const numReaders = 100
@@ -72,11 +70,10 @@ func TestConcurrentReads(t *testing.T) {
 	wg.Wait()
 }
 
-// TestConcurrentFirstLoad tests the dangerous scenario where multiple goroutines
+// TestConcurrentFirstLoad tests the scenario where multiple goroutines
 // try to load and use a country for the first time simultaneously
 func TestConcurrentFirstLoad(t *testing.T) {
-	// This test specifically tests the FIRST load scenario
-	// NOTE: This may fail with -race flag due to the bug in LazyLoad
+	// This test specifically tests the FIRST load scenario with auto-loading
 
 	const numGoroutines = 50
 	var wg sync.WaitGroup
@@ -90,8 +87,7 @@ func TestConcurrentFirstLoad(t *testing.T) {
 	for i := 0; i < numGoroutines; i++ {
 		go func() {
 			defer wg.Done()
-			// Each goroutine tries to lazy load and use immediately
-			holidays.LazyLoad(country)
+			// Each goroutine triggers auto-loading
 			result := holidays.GetHolidays(country, year)
 			if len(result) == 0 {
 				t.Errorf("Expected holidays for %s %d, got empty result", country, year)

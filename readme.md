@@ -311,6 +311,12 @@ Run tests with coverage:
 go test -cover ./...
 ```
 
+Run tests with race detector (verifies thread-safety):
+
+```bash
+go test -race ./...
+```
+
 Run tests for a specific provider:
 
 ```bash

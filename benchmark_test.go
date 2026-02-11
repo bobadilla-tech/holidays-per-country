@@ -8,7 +8,7 @@ import (
 )
 
 func BenchmarkIsHoliday_Cached(b *testing.B) {
-	holidays.LazyLoad("US")
+	// Auto-loading enabled
 	date := time.Date(2024, 7, 4, 0, 0, 0, 0, time.UTC)
 
 	// Pre-warm cache
@@ -21,7 +21,7 @@ func BenchmarkIsHoliday_Cached(b *testing.B) {
 }
 
 func BenchmarkGetHolidays_Cached(b *testing.B) {
-	holidays.LazyLoad("US")
+	// Auto-loading enabled
 
 	// Pre-warm cache
 	holidays.GetHolidays("US", 2024)
@@ -33,7 +33,7 @@ func BenchmarkGetHolidays_Cached(b *testing.B) {
 }
 
 func BenchmarkGetHolidays_Uncached(b *testing.B) {
-	holidays.LazyLoad("US")
+	// Auto-loading enabled
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -44,7 +44,7 @@ func BenchmarkGetHolidays_Uncached(b *testing.B) {
 }
 
 func BenchmarkGetHolidaysInRange_OneMonth(b *testing.B) {
-	holidays.LazyLoad("US")
+	// Auto-loading enabled
 	start := time.Date(2024, 7, 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2024, 7, 31, 0, 0, 0, 0, time.UTC)
 
@@ -55,7 +55,7 @@ func BenchmarkGetHolidaysInRange_OneMonth(b *testing.B) {
 }
 
 func BenchmarkGetHolidaysInRange_OneYear(b *testing.B) {
-	holidays.LazyLoad("US")
+	// Auto-loading enabled
 	start := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2024, 12, 31, 0, 0, 0, 0, time.UTC)
 
@@ -66,7 +66,7 @@ func BenchmarkGetHolidaysInRange_OneYear(b *testing.B) {
 }
 
 func BenchmarkConcurrent_IsHoliday(b *testing.B) {
-	holidays.LazyLoad("US")
+	// Auto-loading enabled
 	date := time.Date(2024, 7, 4, 0, 0, 0, 0, time.UTC)
 
 	// Pre-warm cache
@@ -81,7 +81,7 @@ func BenchmarkConcurrent_IsHoliday(b *testing.B) {
 }
 
 func BenchmarkSubdivisionFiltering(b *testing.B) {
-	holidays.LazyLoad("AU")
+	// Auto-loading enabled
 
 	// Pre-warm cache
 	allHolidays := holidays.GetHolidays("AU", 2024)

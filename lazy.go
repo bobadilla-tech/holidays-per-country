@@ -51,11 +51,3 @@ func ensureProviderLoaded(countryCode string) {
 		registry[countryCode] = providers.UnitedStatesProvider{}
 	}
 }
-
-// LazyLoad registers a country provider on-demand. This allows for minimal
-// memory usage by only loading providers when needed.
-// Deprecated: This function is maintained for backward compatibility.
-// New code should rely on automatic loading via ensureProviderLoaded.
-func LazyLoad(countryCode string) {
-	ensureProviderLoaded(countryCode)
-}

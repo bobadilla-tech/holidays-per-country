@@ -66,7 +66,6 @@ func TestIsHoliday(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Auto-loading enabled - LazyLoad no longer needed
 			result := holidays.IsHoliday(tt.date, tt.countryCode)
 			if result != tt.expected {
 				t.Errorf("IsHoliday(%v, %s) = %v, want %v",

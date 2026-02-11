@@ -7,9 +7,7 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country"
 )
 
-// TestAutoLoad_IsHoliday verifies that IsHoliday works without explicit LazyLoad
 func TestAutoLoad_IsHoliday(t *testing.T) {
-	// DO NOT call holidays.LazyLoad("US")
 	date := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
 
 	// This should automatically load the US provider
@@ -21,9 +19,7 @@ func TestAutoLoad_IsHoliday(t *testing.T) {
 	}
 }
 
-// TestAutoLoad_GetHolidays verifies that GetHolidays works without explicit LazyLoad
 func TestAutoLoad_GetHolidays(t *testing.T) {
-	// DO NOT call holidays.LazyLoad("CA")
 	result := holidays.GetHolidays("CA", 2024)
 
 	if len(result) == 0 {
@@ -45,9 +41,7 @@ func TestAutoLoad_GetHolidays(t *testing.T) {
 	}
 }
 
-// TestAutoLoad_GetHolidaysInRange verifies range queries work without explicit LazyLoad
 func TestAutoLoad_GetHolidaysInRange(t *testing.T) {
-	// DO NOT call holidays.LazyLoad("GB")
 	start := time.Date(2024, 12, 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2024, 12, 31, 0, 0, 0, 0, time.UTC)
 
@@ -67,7 +61,6 @@ func TestAutoLoad_MultipleCountries(t *testing.T) {
 
 	for _, country := range countries {
 		t.Run(country, func(t *testing.T) {
-			// No LazyLoad call
 			result := holidays.GetHolidays(country, 2024)
 
 			if len(result) == 0 {

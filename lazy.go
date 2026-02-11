@@ -2,6 +2,8 @@ package holidays
 
 import "github.com/bobadilla-tech/holidays-per-country/providers"
 
+// LazyLoad registers a country provider on-demand. This allows for minimal
+// memory usage by only loading providers when needed.
 func LazyLoad(countryCode string) {
 	if _, exists := registry[countryCode]; exists {
 		return

@@ -12,6 +12,8 @@ events) and country-specific rules.
 
 ## Features
 
+- **Production-Ready**: Thread-safe caching, binary search optimization, zero
+  allocations for lookups
 - **Subdivision Handling**: Support for state, province, and region-specific
   holidays
 - **Movable Holidays**: Accurate calculation of Easter-based Catholic holidays,
@@ -19,8 +21,24 @@ events) and country-specific rules.
 - **Historical Accuracy**: Year-specific rules for holidays that change dates or
   names over time
 - **Zero Dependencies**: Pure Go implementation with no external dependencies
+- **High Performance**: O(log n) holiday lookups, automatic result caching,
+  concurrent-safe
 - **Calendar Utilities**: Helper functions for finding specific days (first
   Monday, last Friday, etc.)
+
+## 🔱 Used in Production by Requiems
+
+This library powers the **Time APIs** at [Requiems](https://requiems.xyz/apis?category=time), a production-ready API platform used by developers worldwide. Access this holiday data and other time utilities through a simple REST API:
+
+- **Holiday Checking** - Check if a date is a holiday in any country
+- **Holiday Listings** - Get all holidays for a year or date range
+- **Working Day Calculations** - Calculate business days between dates
+- **Timezone Utilities** - Convert and manage times across zones
+- **Date Operations** - Add/subtract business days with holiday awareness
+
+[**Try the Time APIs →**](https://requiems.xyz/apis?category=time)
+
+Whether you need the Go library for direct integration or prefer a managed REST API with global infrastructure, authentication, and rate limiting built-in, we've got you covered.
 
 ## Installation
 

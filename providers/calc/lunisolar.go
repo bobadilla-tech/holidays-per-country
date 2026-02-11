@@ -1,6 +1,6 @@
 // Package internal provides shared utilities for calculating holidays across different countries.
 // This file contains functions for converting Chinese lunisolar calendar dates to Gregorian dates.
-package internal
+package calc
 
 import "time"
 

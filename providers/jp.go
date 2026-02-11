@@ -6,31 +6,30 @@ import (
 	"math"
 	"time"
 
-	"github.com/bobadilla-tech/holidays-per-country/common"
-	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
+	"github.com/bobadilla-tech/holidays-per-country/providers/calc"
 )
 
 // JapanProvider provides public holidays for Japan
 type JapanProvider struct{}
 
-func (JapanProvider) RegisterHolidays(year int) []common.Holiday {
-	secondMondayInJanuary := internal.FindDay(year, time.January, time.Monday, 2)
-	thirdMondayInJuly := internal.FindDay(year, time.July, time.Monday, 3)
-	thirdMondayInSeptember := internal.FindDay(year, time.September, time.Monday, 3)
+func (JapanProvider) RegisterHolidays(year int) []calc.Holiday {
+	secondMondayInJanuary := calc.FindDay(year, time.January, time.Monday, 2)
+	thirdMondayInJuly := calc.FindDay(year, time.July, time.Monday, 3)
+	thirdMondayInSeptember := calc.FindDay(year, time.September, time.Monday, 3)
 
-	holiday := []common.Holiday{
-		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
-		internal.NewHolidayFromTime(secondMondayInJanuary, "Coming of Age Day", nil),
-		internal.NewHoliday(year, time.February, 11, "Foundation Day", nil),
-		internal.NewHoliday(year, time.April, 29, "Showa Day", nil),
-		internal.NewHoliday(year, time.May, 3, "Constitution Memorial Day", nil),
-		internal.NewHoliday(year, time.May, 4, "Greenery Day", nil),
-		internal.NewHoliday(year, time.May, 5, "Children's Day", nil),
-		internal.NewHolidayFromTime(thirdMondayInJuly, "Marine Day", nil),
-		internal.NewHoliday(year, time.August, 11, "Mountain Day", nil),
-		internal.NewHolidayFromTime(thirdMondayInSeptember, "Respect for the Aged Day", nil),
-		internal.NewHoliday(year, time.November, 3, "Culture Day", nil),
-		internal.NewHoliday(year, time.November, 23, "Labour Thanksgiving Day", nil),
+	holiday := []calc.Holiday{
+		calc.NewHoliday(year, time.January, 1, "New Year's Day", nil),
+		calc.NewHolidayFromTime(secondMondayInJanuary, "Coming of Age Day", nil),
+		calc.NewHoliday(year, time.February, 11, "Foundation Day", nil),
+		calc.NewHoliday(year, time.April, 29, "Showa Day", nil),
+		calc.NewHoliday(year, time.May, 3, "Constitution Memorial Day", nil),
+		calc.NewHoliday(year, time.May, 4, "Greenery Day", nil),
+		calc.NewHoliday(year, time.May, 5, "Children's Day", nil),
+		calc.NewHolidayFromTime(thirdMondayInJuly, "Marine Day", nil),
+		calc.NewHoliday(year, time.August, 11, "Mountain Day", nil),
+		calc.NewHolidayFromTime(thirdMondayInSeptember, "Respect for the Aged Day", nil),
+		calc.NewHoliday(year, time.November, 3, "Culture Day", nil),
+		calc.NewHoliday(year, time.November, 23, "Labour Thanksgiving Day", nil),
 	}
 
 	if h := emperorsBirthdayJP(year); h != nil {
@@ -49,7 +48,7 @@ func (JapanProvider) RegisterHolidays(year int) []common.Holiday {
 	return holiday
 }
 
-func emperorsBirthdayJP(year int) *common.Holiday {
+func emperorsBirthdayJP(year int) *calc.Holiday {
 	if year < 1868 {
 		return nil
 	}
@@ -76,60 +75,60 @@ func emperorsBirthdayJP(year int) *common.Holiday {
 		date = time.Date(year, time.February, 23, 0, 0, 0, 0, time.UTC)
 	}
 
-	holiday := internal.NewHolidayFromTime(date, "The Emperor's Birthday", nil)
+	holiday := calc.NewHolidayFromTime(date, "The Emperor's Birthday", nil)
 	return &holiday
 }
 
-func sportsDayJP(year int) *common.Holiday {
+func sportsDayJP(year int) *calc.Holiday {
 	if year <= 1965 {
 		return nil
 	}
 
 	if year > 1965 && year < 2000 {
-		holiday := internal.NewHoliday(year, time.October, 10, "Health and Sports Day", nil)
+		holiday := calc.NewHoliday(year, time.October, 10, "Health and Sports Day", nil)
 		return &holiday
 	}
 
 	if year >= 2000 && year < 2020 {
-		secondMondayInOctober := internal.FindDay(year, time.October, time.Monday, 2)
-		holiday := internal.NewHolidayFromTime(secondMondayInOctober, "Health and Sports Day", nil)
+		secondMondayInOctober := calc.FindDay(year, time.October, time.Monday, 2)
+		holiday := calc.NewHolidayFromTime(secondMondayInOctober, "Health and Sports Day", nil)
 		return &holiday
 	}
 
 	if year == 2020 {
-		holiday := internal.NewHoliday(year, time.July, 24, "Sports Day", nil)
+		holiday := calc.NewHoliday(year, time.July, 24, "Sports Day", nil)
 		return &holiday
 	}
 
 	if year == 2021 {
-		holiday := internal.NewHoliday(year, time.July, 23, "Sports Day", nil)
+		holiday := calc.NewHoliday(year, time.July, 23, "Sports Day", nil)
 		return &holiday
 	}
 
 	if year >= 2022 {
-		secondMondayInOctober := internal.FindDay(year, time.October, time.Monday, 2)
-		holiday := internal.NewHolidayFromTime(secondMondayInOctober, "Sports Day", nil)
+		secondMondayInOctober := calc.FindDay(year, time.October, time.Monday, 2)
+		holiday := calc.NewHolidayFromTime(secondMondayInOctober, "Sports Day", nil)
 		return &holiday
 	}
 
 	return nil
 }
 
-func vernalEquinoxDayJP(year int) *common.Holiday {
+func vernalEquinoxDayJP(year int) *calc.Holiday {
 	day, ok := vernalEquinoxDay(year)
 	if !ok {
 		return nil
 	}
-	holiday := internal.NewHoliday(year, time.March, day, "Vernal Equinox Day", nil)
+	holiday := calc.NewHoliday(year, time.March, day, "Vernal Equinox Day", nil)
 	return &holiday
 }
 
-func autumnalEquinoxDayJP(year int) *common.Holiday {
+func autumnalEquinoxDayJP(year int) *calc.Holiday {
 	day, ok := autumnalEquinoxDay(year)
 	if !ok {
 		return nil
 	}
-	holiday := internal.NewHoliday(year, time.September, day, "Autumnal Equinox Day", nil)
+	holiday := calc.NewHoliday(year, time.September, day, "Autumnal Equinox Day", nil)
 	return &holiday
 }
 

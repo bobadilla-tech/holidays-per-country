@@ -5,14 +5,13 @@ package providers
 import (
 	"time"
 
-	"github.com/bobadilla-tech/holidays-per-country/common"
-	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
+	"github.com/bobadilla-tech/holidays-per-country/providers/calc"
 )
 
 // AustraliaProvider provides public holidays for Australia and its states/territories
 type AustraliaProvider struct{}
 
-func (AustraliaProvider) RegisterHolidays(year int) []common.Holiday {
+func (AustraliaProvider) RegisterHolidays(year int) []calc.Holiday {
 	holiday := baseHolidaysAU(year)
 	holiday = append(holiday, labourDayVariationsAU(year)...)
 	holiday = append(holiday, monarchBirthdayAU(year)...)
@@ -30,50 +29,50 @@ func (AustraliaProvider) RegisterHolidays(year int) []common.Holiday {
 	return holiday
 }
 
-func baseHolidaysAU(year int) []common.Holiday {
-	secondMondayInMarch := internal.FindDay(year, time.March, time.Monday, 2)
-	firstMondayInMay := internal.FindDay(year, time.May, time.Monday, 1)
+func baseHolidaysAU(year int) []calc.Holiday {
+	secondMondayInMarch := calc.FindDay(year, time.March, time.Monday, 2)
+	firstMondayInMay := calc.FindDay(year, time.May, time.Monday, 1)
 	may27 := time.Date(year, time.May, 27, 0, 0, 0, 0, time.UTC)
-	firstMondayAfterOr27May := internal.FindNextDay(may27, time.Monday)
-	firstMondayInJune := internal.FindDay(year, time.June, time.Monday, 1)
-	firstMondayInAugust := internal.FindDay(year, time.August, time.Monday, 1)
-	firstTuesdayInNovember := internal.FindDay(year, time.November, time.Tuesday, 1)
+	firstMondayAfterOr27May := calc.FindNextDay(may27, time.Monday)
+	firstMondayInJune := calc.FindDay(year, time.June, time.Monday, 1)
+	firstMondayInAugust := calc.FindDay(year, time.August, time.Monday, 1)
+	firstTuesdayInNovember := calc.FindDay(year, time.November, time.Tuesday, 1)
 
-	return []common.Holiday{
-		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
-		internal.NewHoliday(year, time.January, 26, "Australia Day", nil),
-		internal.NewHolidayFromTime(secondMondayInMarch, "Canberra Day", []string{"AU-ACT"}),
-		internal.NewHolidayFromTime(secondMondayInMarch, "Adelaide Cup Day", []string{"AU-SA"}),
-		internal.NewHolidayFromTime(secondMondayInMarch, "Eight Hours Day", []string{"AU-TAS"}),
-		internal.NewHoliday(year, time.April, 25, "Anzac Day", nil),
-		internal.NewHolidayFromTime(firstMondayInMay, "May Day", []string{"AU-NT"}),
-		internal.NewHolidayFromTime(firstMondayAfterOr27May, "Reconciliation Day", []string{"AU-ACT"}),
-		internal.NewHolidayFromTime(firstMondayInJune, "Western Australia Day", []string{"AU-WA"}),
-		internal.NewHolidayFromTime(firstMondayInAugust, "Picnic Day", []string{"AU-NT"}),
-		internal.NewHolidayFromTime(firstTuesdayInNovember, "Melbourne Cup", []string{"AU-VIC"}),
-		internal.NewHoliday(year, time.December, 25, "Christmas Day", nil),
-		internal.NewHoliday(year, time.December, 26, "St. Stephen's Day", nil),
-		internal.NewHolidayFromTime(internal.CatholicEasterSaturday(year), "Easter Eve", []string{"AU-ACT", "AU-NSW", "AU-NT", "AU-QLD", "AU-SA", "AU-VIC"}),
-		internal.NewHolidayFromTime(internal.CatholicGoodFriday(year), "Good Friday", nil),
-		internal.NewHolidayFromTime(internal.CatholicEasterMonday(year), "Easter Monday", nil),
+	return []calc.Holiday{
+		calc.NewHoliday(year, time.January, 1, "New Year's Day", nil),
+		calc.NewHoliday(year, time.January, 26, "Australia Day", nil),
+		calc.NewHolidayFromTime(secondMondayInMarch, "Canberra Day", []string{"AU-ACT"}),
+		calc.NewHolidayFromTime(secondMondayInMarch, "Adelaide Cup Day", []string{"AU-SA"}),
+		calc.NewHolidayFromTime(secondMondayInMarch, "Eight Hours Day", []string{"AU-TAS"}),
+		calc.NewHoliday(year, time.April, 25, "Anzac Day", nil),
+		calc.NewHolidayFromTime(firstMondayInMay, "May Day", []string{"AU-NT"}),
+		calc.NewHolidayFromTime(firstMondayAfterOr27May, "Reconciliation Day", []string{"AU-ACT"}),
+		calc.NewHolidayFromTime(firstMondayInJune, "Western Australia Day", []string{"AU-WA"}),
+		calc.NewHolidayFromTime(firstMondayInAugust, "Picnic Day", []string{"AU-NT"}),
+		calc.NewHolidayFromTime(firstTuesdayInNovember, "Melbourne Cup", []string{"AU-VIC"}),
+		calc.NewHoliday(year, time.December, 25, "Christmas Day", nil),
+		calc.NewHoliday(year, time.December, 26, "St. Stephen's Day", nil),
+		calc.NewHolidayFromTime(calc.CatholicEasterSaturday(year), "Easter Eve", []string{"AU-ACT", "AU-NSW", "AU-NT", "AU-QLD", "AU-SA", "AU-VIC"}),
+		calc.NewHolidayFromTime(calc.CatholicGoodFriday(year), "Good Friday", nil),
+		calc.NewHolidayFromTime(calc.CatholicEasterMonday(year), "Easter Monday", nil),
 	}
 }
 
-func labourDayVariationsAU(year int) []common.Holiday {
-	firstMondayInMarch := internal.FindDay(year, time.March, time.Monday, 1)
-	secondMondayInMarch := internal.FindDay(year, time.March, time.Monday, 2)
-	firstMondayInMay := internal.FindDay(year, time.May, time.Monday, 1)
-	firstMondayInOctober := internal.FindDay(year, time.October, time.Monday, 1)
+func labourDayVariationsAU(year int) []calc.Holiday {
+	firstMondayInMarch := calc.FindDay(year, time.March, time.Monday, 1)
+	secondMondayInMarch := calc.FindDay(year, time.March, time.Monday, 2)
+	firstMondayInMay := calc.FindDay(year, time.May, time.Monday, 1)
+	firstMondayInOctober := calc.FindDay(year, time.October, time.Monday, 1)
 
-	return []common.Holiday{
-		internal.NewHolidayFromTime(firstMondayInMarch, "Labour Day", []string{"AU-WA"}),
-		internal.NewHolidayFromTime(secondMondayInMarch, "Labour Day", []string{"AU-VIC"}),
-		internal.NewHolidayFromTime(firstMondayInMay, "Labour Day", []string{"AU-QLD"}),
-		internal.NewHolidayFromTime(firstMondayInOctober, "Labour Day", []string{"AU-ACT", "AU-NSW", "AU-SA"}),
+	return []calc.Holiday{
+		calc.NewHolidayFromTime(firstMondayInMarch, "Labour Day", []string{"AU-WA"}),
+		calc.NewHolidayFromTime(secondMondayInMarch, "Labour Day", []string{"AU-VIC"}),
+		calc.NewHolidayFromTime(firstMondayInMay, "Labour Day", []string{"AU-QLD"}),
+		calc.NewHolidayFromTime(firstMondayInOctober, "Labour Day", []string{"AU-ACT", "AU-NSW", "AU-SA"}),
 	}
 }
 
-func easterSundayAU(year int) *common.Holiday {
+func easterSundayAU(year int) *calc.Holiday {
 	var subdivisions []string
 	switch {
 	case year >= 2024:
@@ -92,46 +91,46 @@ func easterSundayAU(year int) *common.Holiday {
 		return nil
 	}
 
-	holiday := internal.NewHolidayFromTime(internal.CatholicEasterSunday(year), "Easter Sunday", subdivisions)
+	holiday := calc.NewHolidayFromTime(calc.CatholicEasterSunday(year), "Easter Sunday", subdivisions)
 	return &holiday
 }
 
-func monarchBirthdayAU(year int) []common.Holiday {
-	secondMondayInJune := internal.FindDay(year, time.June, time.Monday, 2)
-	lastMondayInSeptember := internal.FindLastDay(year, time.September, time.Monday)
-	firstMondayInOctober := internal.FindDay(year, time.October, time.Monday, 1)
+func monarchBirthdayAU(year int) []calc.Holiday {
+	secondMondayInJune := calc.FindDay(year, time.June, time.Monday, 2)
+	lastMondayInSeptember := calc.FindLastDay(year, time.September, time.Monday)
+	firstMondayInOctober := calc.FindDay(year, time.October, time.Monday, 1)
 
 	name := "Queen's Birthday"
 	if year >= 2023 {
 		name = "King's Birthday"
 	}
 
-	return []common.Holiday{
-		internal.NewHolidayFromTime(secondMondayInJune, name, []string{"AU-ACT", "AU-NSW", "AU-NT", "AU-SA", "AU-TAS", "AU-VIC"}),
-		internal.NewHolidayFromTime(lastMondayInSeptember, name, []string{"AU-WA"}),
-		internal.NewHolidayFromTime(firstMondayInOctober, name, []string{"AU-QLD"}),
+	return []calc.Holiday{
+		calc.NewHolidayFromTime(secondMondayInJune, name, []string{"AU-ACT", "AU-NSW", "AU-NT", "AU-SA", "AU-TAS", "AU-VIC"}),
+		calc.NewHolidayFromTime(lastMondayInSeptember, name, []string{"AU-WA"}),
+		calc.NewHolidayFromTime(firstMondayInOctober, name, []string{"AU-QLD"}),
 	}
 }
 
-func nationalMourningAU(year int) *common.Holiday {
+func nationalMourningAU(year int) *calc.Holiday {
 	if year != 2022 {
 		return nil
 	}
-	holiday := internal.NewHoliday(year, time.September, 22, "National Day of Mourning", nil)
+	holiday := calc.NewHoliday(year, time.September, 22, "National Day of Mourning", nil)
 	return &holiday
 }
 
-func aflGrandFinalAU(year int) *common.Holiday {
+func aflGrandFinalAU(year int) *calc.Holiday {
 	switch year {
 	case 2016, 2017, 2018, 2019, 2021, 2023, 2024, 2025:
-		lastFridayInSeptember := internal.FindLastDay(year, time.September, time.Friday)
-		holiday := internal.NewHolidayFromTime(lastFridayInSeptember, "Friday before AFL Grand Final", []string{"AU-VIC"})
+		lastFridayInSeptember := calc.FindLastDay(year, time.September, time.Friday)
+		holiday := calc.NewHolidayFromTime(lastFridayInSeptember, "Friday before AFL Grand Final", []string{"AU-VIC"})
 		return &holiday
 	case 2020:
-		holiday := internal.NewHoliday(year, time.October, 23, "Friday before AFL Grand Final", []string{"AU-VIC"})
+		holiday := calc.NewHoliday(year, time.October, 23, "Friday before AFL Grand Final", []string{"AU-VIC"})
 		return &holiday
 	case 2022:
-		holiday := internal.NewHoliday(year, time.September, 23, "Friday before AFL Grand Final", []string{"AU-VIC"})
+		holiday := calc.NewHoliday(year, time.September, 23, "Friday before AFL Grand Final", []string{"AU-VIC"})
 		return &holiday
 	default:
 		return nil

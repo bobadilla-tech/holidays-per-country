@@ -10,6 +10,9 @@ func LazyLoad(countryCode string) {
 	switch countryCode {
 	case "US":
 		registry[countryCode] = providers.UnitedStatesProvider{}
+		break
+	default:
+		break
 		// Add more country providers here as they are implemented
 	}
 }

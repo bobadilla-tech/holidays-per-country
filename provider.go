@@ -1,10 +1,15 @@
 package holidays
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/bobadilla-tech/holidays-per-country/providers"
+	"github.com/bobadilla-tech/holidays-per-country/providers/calc"
 )
+
+// Holiday represents a public holiday with its date, name, and applicable subdivisions.
+type Holiday = calc.Holiday
 
 // provider is the interface that all country holiday providers must implement.
 type provider interface {
@@ -16,6 +21,17 @@ var registry = map[string]provider{}
 
 // registryMutex protects concurrent access to the registry map.
 var registryMutex sync.RWMutex
+
+// holidaysCache stores computed holidays by country and year for performance.
+var holidaysCache = map[string][]Holiday{}
+
+// cacheMutex protects concurrent access to the holidaysCache map.
+var cacheMutex sync.RWMutex
+
+// cacheKey generates a unique cache key for a country-year combination.
+func cacheKey(countryCode string, year int) string {
+	return fmt.Sprintf("%s:%d", countryCode, year)
+}
 
 // ensureProviderLoaded automatically loads a country provider if not already loaded.
 // This function is thread-safe and uses double-checked locking for optimal performance.

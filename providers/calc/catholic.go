@@ -1,5 +1,6 @@
-// Package internal provides shared utilities for calculating holidays across different countries.
+// Package calc provides shared utilities for calculating holidays across different countries.
 // This file contains functions for calculating Catholic/Christian holiday dates.
+
 package calc
 
 import (

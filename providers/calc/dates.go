@@ -1,5 +1,6 @@
-// Package internal provides shared utilities for calculating holidays across different countries.
+// Package calc provides shared utilities for calculating holidays across different countries.
 // This file contains functions for finding specific weekdays and dates within months.
+
 package calc
 
 import "time"

@@ -251,7 +251,10 @@ The library handles different types of holidays:
 
 ### Date Utilities
 
-The library provides utilities for finding specific days:
+The library provides date calculation utilities in the
+`github.com/bobadilla-tech/holidays-per-country/providers/calc` package:
+
+**Date Finding Functions:**
 
 - `FindDay(year, month, dayOfWeek, occurrence)`: Find the Nth occurrence of a
   weekday (e.g., 3rd Monday of February)
@@ -260,15 +263,38 @@ The library provides utilities for finding specific days:
 - `FindNextDay(date, dayOfWeek)`: Find the next occurrence of a specific weekday
 - `FindDayBefore(date, dayOfWeek)`: Find the previous occurrence of a specific
   weekday
+- `FindDayBetween(startDate, endDate, dayOfWeek)`: Find a specific weekday
+  within a date range
 
-### Special Calendar Support
+**Catholic Calendar Functions:**
 
-- **Catholic Calendar**: Accurate Easter calculation using Gauss's algorithm and
-  derived Catholic holidays
-- **Chinese Lunisolar Calendar**: Conversion from lunar dates to Gregorian for
-  years 1900-2100
-- **Japanese Equinoxes**: Mathematical calculation of vernal and autumnal
-  equinoxes
+- `CatholicEasterSunday(year)`: Calculate Easter Sunday using Gauss's algorithm
+- `CatholicGoodFriday(year)`: Calculate Good Friday
+- `CatholicEasterMonday(year)`: Calculate Easter Monday
+- `CatholicAscensionDay(year)`: Calculate Ascension Day (39 days after Easter)
+- `CatholicPentecost(year)`: Calculate Pentecost Sunday (49 days after Easter)
+- `CatholicWhitMonday(year)`: Calculate Whit Monday
+- `CatholicCorpusChristi(year)`: Calculate Corpus Christi
+
+**Chinese Lunisolar Calendar:**
+
+- `ChineseLunisolarToGregorian(year, month, day)`: Convert Chinese lunar dates
+  to Gregorian dates (supports years 1900-2100)
+
+**Example Usage:**
+
+```go
+import "github.com/bobadilla-tech/holidays-per-country/providers/calc"
+
+// Find the 3rd Monday in January 2024 (Martin Luther King Jr. Day)
+mlkDay := calc.FindDay(2024, time.January, time.Monday, 3)
+
+// Calculate Easter Sunday for 2024
+easter := calc.CatholicEasterSunday(2024)
+
+// Convert Chinese New Year 2024 (lunar year 2024, month 1, day 1)
+chineseNewYear, ok := calc.ChineseLunisolarToGregorian(2024, 1, 1)
+```
 
 ## Testing
 
@@ -304,7 +330,8 @@ Quick start for adding a country:
 
 1. Create a new file in `providers/` named `{countrycode}.go`
 2. Implement the provider following the pattern in existing providers
-3. Use helper functions from `providers/internal/` for date calculations
+3. Use helper functions from `providers/calc/` for date calculations (Easter,
+   lunar calendar, date finding utilities)
 4. Add tests in `providers/{countrycode}_test.go`
 5. Submit a pull request
 
@@ -317,4 +344,4 @@ for details.
 
 Holiday data and rules derived from:
 
-- [Nager.Date](https://date.nager.at/) - Public holiday API
+- [Nager.Date](https://github.com/nager/Nager.Date)

@@ -1,8 +1,11 @@
 # Holidays Per Country
 
+[![CI](https://github.com/bobadilla-tech/holidays-per-country/actions/workflows/ci.yml/badge.svg)](https://github.com/bobadilla-tech/holidays-per-country/actions/workflows/ci.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/bobadilla-tech/holidays-per-country.svg)](https://pkg.go.dev/github.com/bobadilla-tech/holidays-per-country)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bobadilla-tech/holidays-per-country)](https://goreportcard.com/report/github.com/bobadilla-tech/holidays-per-country)
+[![codecov](https://codecov.io/gh/bobadilla-tech/holidays-per-country/branch/main/graph/badge.svg)](https://codecov.io/gh/bobadilla-tech/holidays-per-country)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/bobadilla-tech/holidays-per-country)](https://github.com/bobadilla-tech/holidays-per-country/releases)
 
 A pure Go library for determining public holidays across different countries and
 their subdivisions (states, provinces, regions). Provides accurate holiday
@@ -270,25 +273,21 @@ go test ./providers -run TestUnitedStatesProvider
 
 ## Contributing
 
-Contributions are welcome! To add a new country provider:
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for
+detailed guidelines on:
+
+- Adding new country providers
+- Reporting bugs and requesting features
+- Code style and testing requirements
+- Pull request process
+
+Quick start for adding a country:
 
 1. Create a new file in `providers/` named `{countrycode}.go`
 2. Implement the provider following the pattern in existing providers
 3. Use helper functions from `providers/internal/` for date calculations
 4. Add tests in `providers/{countrycode}_test.go`
 5. Submit a pull request
-
-### Provider Implementation Guidelines
-
-- Use `internal.NewHoliday(month, day, name, subdivisions)` for fixed-date
-  holidays
-- Use `internal.NewHolidayFromTime(date, name, subdivisions)` for movable
-  holidays
-- Split complex logic into helper functions (see `ca.go`, `gb.go`, `es.go` for
-  examples)
-- Include comments for non-public holidays or special cases
-- Handle year-specific rules and subdivision variations
-- Document the source of holiday data in comments
 
 ## License
 

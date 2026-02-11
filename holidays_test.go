@@ -66,7 +66,7 @@ func TestIsHoliday(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			holidays.LazyLoad(tt.countryCode)
+			// Auto-loading enabled - LazyLoad no longer needed
 			result := holidays.IsHoliday(tt.date, tt.countryCode)
 			if result != tt.expected {
 				t.Errorf("IsHoliday(%v, %s) = %v, want %v",
@@ -111,7 +111,6 @@ func TestGetHolidays(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			holidays.LazyLoad(tt.countryCode)
 			result := holidays.GetHolidays(tt.countryCode, tt.year)
 
 			if len(result) < tt.minCount {
@@ -139,7 +138,6 @@ func TestGetHolidays(t *testing.T) {
 }
 
 func TestGetHolidays_SpecificDates(t *testing.T) {
-	holidays.LazyLoad("US")
 	usHolidays := holidays.GetHolidays("US", 2024)
 
 	expectedHolidays := map[string]string{
@@ -213,7 +211,6 @@ func TestGetHolidaysInRange(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			holidays.LazyLoad(tt.countryCode)
 			result := holidays.GetHolidaysInRange(tt.countryCode, tt.start, tt.end)
 
 			if len(result) != tt.expected {
@@ -247,7 +244,6 @@ func TestGetHolidaysInRange(t *testing.T) {
 }
 
 func TestGetHolidaysInRange_InvalidRange(t *testing.T) {
-	holidays.LazyLoad("US")
 	start := time.Date(2024, 12, 31, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
 
@@ -259,8 +255,6 @@ func TestGetHolidaysInRange_InvalidRange(t *testing.T) {
 }
 
 func TestGetHolidaysInRange_BoundaryInclusive(t *testing.T) {
-	holidays.LazyLoad("US")
-
 	// Test that start date is inclusive
 	start := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC) // New Year's Day
 	end := time.Date(2024, 1, 2, 0, 0, 0, 0, time.UTC)
@@ -300,7 +294,6 @@ func TestMultipleCountries(t *testing.T) {
 
 	for _, country := range countries {
 		t.Run(country, func(t *testing.T) {
-			holidays.LazyLoad(country)
 			result := holidays.GetHolidays(country, year)
 
 			if len(result) == 0 {
@@ -323,7 +316,6 @@ func TestMultipleCountries(t *testing.T) {
 }
 
 func TestHolidayStructure(t *testing.T) {
-	holidays.LazyLoad("US")
 	usHolidays := holidays.GetHolidays("US", 2024)
 
 	if len(usHolidays) == 0 {
@@ -348,8 +340,6 @@ func TestHolidayStructure(t *testing.T) {
 }
 
 func TestGetHolidays_CachePerYear(t *testing.T) {
-	holidays.LazyLoad("US")
-
 	// Get holidays for 2024
 	holidays2024 := holidays.GetHolidays("US", 2024)
 	if len(holidays2024) == 0 {
@@ -393,7 +383,6 @@ func TestGetHolidays_Sorted(t *testing.T) {
 
 	for _, country := range countries {
 		t.Run(country, func(t *testing.T) {
-			holidays.LazyLoad(country)
 			result := holidays.GetHolidays(country, 2024)
 
 			if len(result) == 0 {

@@ -13,7 +13,7 @@ events) and country-specific rules.
 ## Features
 
 - **Production-Ready**: Thread-safe caching, binary search optimization, zero
-  allocations for lookups
+  allocations for lookups, automatic lazy loading
 - **Subdivision Handling**: Support for state, province, and region-specific
   holidays
 - **Movable Holidays**: Accurate calculation of Easter-based Catholic holidays,
@@ -22,7 +22,8 @@ events) and country-specific rules.
   names over time
 - **Zero Dependencies**: Pure Go implementation with no external dependencies
 - **High Performance**: O(log n) holiday lookups, automatic result caching,
-  concurrent-safe
+  concurrent-safe with no data races
+- **Automatic Loading**: Country providers load on-demand on first use
 - **Calendar Utilities**: Helper functions for finding specific days (first
   Monday, last Friday, etc.)
 

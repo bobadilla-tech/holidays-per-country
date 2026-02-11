@@ -4,16 +4,25 @@
 package calc
 
 import (
+	"sync"
 	"time"
 )
 
-var cache = map[int]time.Time{}
+var (
+	cache      = map[int]time.Time{}
+	cacheMutex sync.RWMutex
+)
 
 // CatholicEasterSunday calculates the date of Easter Sunday for a given year using the Meeus/Jones/Butcher algorithm.
+// Results are cached for performance. Thread-safe for concurrent use.
 func CatholicEasterSunday(year int) time.Time {
+	// Check cache with read lock
+	cacheMutex.RLock()
 	if cached, ok := cache[year]; ok {
+		cacheMutex.RUnlock()
 		return cached
 	}
+	cacheMutex.RUnlock()
 
 	// Meeus/Jones/Butcher algorithm
 	g := year % 19
@@ -31,7 +40,11 @@ func CatholicEasterSunday(year int) time.Time {
 
 	result := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
 
+	// Cache with write lock
+	cacheMutex.Lock()
 	cache[year] = result
+	cacheMutex.Unlock()
+
 	return result
 }
 

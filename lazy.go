@@ -2,13 +2,28 @@ package holidays
 
 import "github.com/bobadilla-tech/holidays-per-country/providers"
 
-// LazyLoad registers a country provider on-demand. This allows for minimal
-// memory usage by only loading providers when needed.
-func LazyLoad(countryCode string) {
+// ensureProviderLoaded automatically loads a country provider if not already loaded.
+// This function is thread-safe and uses double-checked locking for optimal performance.
+func ensureProviderLoaded(countryCode string) {
+	// Fast path: check with read lock
+	registryMutex.RLock()
+	_, exists := registry[countryCode]
+	registryMutex.RUnlock()
+
+	if exists {
+		return
+	}
+
+	// Slow path: load with write lock
+	registryMutex.Lock()
+	defer registryMutex.Unlock()
+
+	// Double-check after acquiring write lock to prevent duplicate loading
 	if _, exists := registry[countryCode]; exists {
 		return
 	}
 
+	// Load the provider
 	switch countryCode {
 	case "AU":
 		registry[countryCode] = providers.AustraliaProvider{}
@@ -34,6 +49,13 @@ func LazyLoad(countryCode string) {
 		registry[countryCode] = providers.MexicoProvider{}
 	case "US":
 		registry[countryCode] = providers.UnitedStatesProvider{}
-	default:
 	}
+}
+
+// LazyLoad registers a country provider on-demand. This allows for minimal
+// memory usage by only loading providers when needed.
+// Deprecated: This function is maintained for backward compatibility.
+// New code should rely on automatic loading via ensureProviderLoaded.
+func LazyLoad(countryCode string) {
+	ensureProviderLoaded(countryCode)
 }

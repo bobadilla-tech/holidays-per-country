@@ -33,6 +33,7 @@ func IsHoliday(date time.Time, countryCode string) bool {
 
 // GetHolidays returns all public holidays for a specific country and year.
 // Results are cached for performance. Thread-safe for concurrent use.
+// Automatically loads the country provider on first use (lazy loading).
 func GetHolidays(countryCode string, year int) []Holiday {
 	key := cacheKey(countryCode, year)
 
@@ -44,8 +45,14 @@ func GetHolidays(countryCode string, year int) []Holiday {
 	}
 	cacheMutex.RUnlock()
 
-	// Provider lookup
+	// Auto-load provider if not already loaded
+	ensureProviderLoaded(countryCode)
+
+	// Provider lookup with read lock
+	registryMutex.RLock()
 	provider, exists := registry[countryCode]
+	registryMutex.RUnlock()
+
 	if !exists {
 		return []Holiday{}
 	}

@@ -9,7 +9,28 @@ import (
 type GermanyProvider struct{}
 
 func (_ GermanyProvider) RegisterHolidays(year int) []internal.Holiday {
-	holidays := []internal.Holiday{
+	holiday := baseHolidaysDE(year)
+	if h := internationalWomensDayDE(year); h != nil {
+		holiday = append(holiday, *h)
+	}
+	if h := reformationDayDE(year); h != nil {
+		holiday = append(holiday, *h)
+	}
+	if h := repentanceAndPrayerDayDE(year); h != nil {
+		holiday = append(holiday, *h)
+	}
+	if h := liberationDayDE(year); h != nil {
+		holiday = append(holiday, *h)
+	}
+	if h := worldChildrensDayDE(year); h != nil {
+		holiday = append(holiday, *h)
+	}
+
+	return holiday
+}
+
+func baseHolidaysDE(year int) []internal.Holiday {
+	return []internal.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.January, 6, "Epiphany", []string{"DE-BW", "DE-BY", "DE-ST"}),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", []string{"DE-BW", "DE-BY", "DE-BE", "DE-BB", "DE-HB", "DE-HH", "DE-HE", "DE-MV", "DE-NI", "DE-NW", "DE-RP", "DE-SL", "DE-SN", "DE-ST", "DE-TH"}),
@@ -26,51 +47,78 @@ func (_ GermanyProvider) RegisterHolidays(year int) []internal.Holiday {
 		internal.NewHolidayFromTime(internal.CatholicWhitMonday(year), "Whit Monday", nil),
 		internal.NewHolidayFromTime(internal.CatholicCorpusChristi(year), "Corpus Christi", []string{"DE-BW", "DE-BY", "DE-HE", "DE-NW", "DE-RP", "DE-SL"}),
 	}
+}
 
-	// International Women's Day
+func internationalWomensDayDE(year int) *internal.Holiday {
 	if year >= 2019 && year <= 2022 {
-		holidays = append(holidays, internal.NewHoliday(year, time.March, 8, "International Women's Day", []string{"DE-BE"}))
-	} else if year >= 2023 {
-		holidays = append(holidays, internal.NewHoliday(year, time.March, 8, "International Women's Day", []string{"DE-BE", "DE-MV"}))
+		holiday := internal.NewHoliday(year, time.March, 8, "International Women's Day", []string{"DE-BE"})
+		return &holiday
+	}
+	if year >= 2023 {
+		holiday := internal.NewHoliday(year, time.March, 8, "International Women's Day", []string{"DE-BE", "DE-MV"})
+		return &holiday
 	}
 
-	// Reformation Day
+	return nil
+}
+
+func reformationDayDE(year int) *internal.Holiday {
 	if year == 2017 {
-		holidays = append(holidays, internal.NewHoliday(year, time.October, 31, "Reformation Day", nil))
-	} else if year >= 2018 {
-		holidays = append(holidays, internal.NewHoliday(year, time.October, 31, "Reformation Day", []string{"DE-BB", "DE-MV", "DE-SN", "DE-ST", "DE-TH", "DE-HB", "DE-HH", "DE-NI", "DE-SH"}))
-	} else {
-		holidays = append(holidays, internal.NewHoliday(year, time.October, 31, "Reformation Day", []string{"DE-BB", "DE-MV", "DE-SN", "DE-ST", "DE-TH"}))
+		holiday := internal.NewHoliday(year, time.October, 31, "Reformation Day", nil)
+		return &holiday
+	}
+	if year >= 2018 {
+		holiday := internal.NewHoliday(year, time.October, 31, "Reformation Day", []string{"DE-BB", "DE-MV", "DE-SN", "DE-ST", "DE-TH", "DE-HB", "DE-HH", "DE-NI", "DE-SH"})
+		return &holiday
 	}
 
-	// Repentance and Prayer Day
-	// Calculate Advent Sunday (4th Sunday before Christmas, i.e., 3 weeks before the last Sunday before Christmas)
+	holiday := internal.NewHoliday(year, time.October, 31, "Reformation Day", []string{"DE-BB", "DE-MV", "DE-SN", "DE-ST", "DE-TH"})
+	return &holiday
+}
+
+func repentanceAndPrayerDayDE(year int) *internal.Holiday {
 	christmas := time.Date(year, time.December, 25, 0, 0, 0, 0, time.UTC)
 	sundayBeforeChristmas := internal.FindDayBefore(christmas, time.Sunday)
-	adventSunday := sundayBeforeChristmas.AddDate(0, 0, -21) // 3 weeks before
+	adventSunday := sundayBeforeChristmas.AddDate(0, 0, -21)
 	dayOfPrayer := adventSunday.AddDate(0, 0, -11)
 
 	if year >= 1934 && year < 1939 {
-		holidays = append(holidays, internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", nil))
-	} else if year >= 1945 && year <= 1980 {
-		holidays = append(holidays, internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", []string{"DE-BW", "DE-BE", "DE-HB", "DE-HH", "DE-HE", "DE-NI", "DE-NW", "DE-RP", "DE-SL", "DE-SH"}))
-	} else if year >= 1981 && year <= 1989 {
-		holidays = append(holidays, internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", []string{"DE-BW", "DE-BY", "DE-BE", "DE-HB", "DE-HH", "DE-HE", "DE-NI", "DE-NW", "DE-RP", "DE-SL", "DE-SH"}))
-	} else if year >= 1990 && year <= 1994 {
-		holidays = append(holidays, internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", nil))
-	} else if year >= 1995 {
-		holidays = append(holidays, internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", []string{"DE-SN"}))
+		holiday := internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", nil)
+		return &holiday
+	}
+	if year >= 1945 && year <= 1980 {
+		holiday := internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", []string{"DE-BW", "DE-BE", "DE-HB", "DE-HH", "DE-HE", "DE-NI", "DE-NW", "DE-RP", "DE-SL", "DE-SH"})
+		return &holiday
+	}
+	if year >= 1981 && year <= 1989 {
+		holiday := internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", []string{"DE-BW", "DE-BY", "DE-BE", "DE-HB", "DE-HH", "DE-HE", "DE-NI", "DE-NW", "DE-RP", "DE-SL", "DE-SH"})
+		return &holiday
+	}
+	if year >= 1990 && year <= 1994 {
+		holiday := internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", nil)
+		return &holiday
+	}
+	if year >= 1995 {
+		holiday := internal.NewHolidayFromTime(dayOfPrayer, "Repentance and Prayer Day", []string{"DE-SN"})
+		return &holiday
 	}
 
-	// Liberation Day
+	return nil
+}
+
+func liberationDayDE(year int) *internal.Holiday {
 	if year == 2020 || year == 2025 {
-		holidays = append(holidays, internal.NewHoliday(year, time.May, 8, "Liberation Day", []string{"DE-BE"}))
+		holiday := internal.NewHoliday(year, time.May, 8, "Liberation Day", []string{"DE-BE"})
+		return &holiday
 	}
 
-	// World Children's Day
-	if year >= 2019 {
-		holidays = append(holidays, internal.NewHoliday(year, time.September, 20, "World Children's Day", []string{"DE-TH"}))
-	}
+	return nil
+}
 
-	return holidays
+func worldChildrensDayDE(year int) *internal.Holiday {
+	if year < 2019 {
+		return nil
+	}
+	holiday := internal.NewHoliday(year, time.September, 20, "World Children's Day", []string{"DE-TH"})
+	return &holiday
 }

@@ -9,9 +9,18 @@ import (
 type BrazilProvider struct{}
 
 func (_ BrazilProvider) RegisterHolidays(year int) []internal.Holiday {
+	holiday := baseHolidaysBR(year)
+	if h := blackAwarenessDayBR(year); h != nil {
+		holiday = append(holiday, *h)
+	}
+
+	return holiday
+}
+
+func baseHolidaysBR(year int) []internal.Holiday {
 	easterSunday := internal.CatholicEasterSunday(year)
 
-	holidays := []internal.Holiday{
+	return []internal.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.April, 21, "Tiradentes", nil),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", nil),
@@ -27,11 +36,12 @@ func (_ BrazilProvider) RegisterHolidays(year int) []internal.Holiday {
 		internal.NewHolidayFromTime(internal.CatholicGoodFriday(year), "Good Friday", nil),
 		internal.NewHolidayFromTime(internal.CatholicCorpusChristi(year), "Corpus Christi", nil),
 	}
+}
 
-	// Black Awareness Day (2024+)
-	if year >= 2024 {
-		holidays = append(holidays, internal.NewHoliday(year, time.November, 20, "Black Awareness Day", nil))
+func blackAwarenessDayBR(year int) *internal.Holiday {
+	if year < 2024 {
+		return nil
 	}
-
-	return holidays
+	holiday := internal.NewHoliday(year, time.November, 20, "Black Awareness Day", nil)
+	return &holiday
 }

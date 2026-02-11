@@ -9,7 +9,11 @@ import (
 type FranceProvider struct{}
 
 func (_ FranceProvider) RegisterHolidays(year int) []internal.Holiday {
-	holidays := []internal.Holiday{
+	return baseHolidaysFR(year)
+}
+
+func baseHolidaysFR(year int) []internal.Holiday {
+	return []internal.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", nil),
 		internal.NewHoliday(year, time.May, 8, "Victory in Europe Day", nil),
@@ -22,6 +26,4 @@ func (_ FranceProvider) RegisterHolidays(year int) []internal.Holiday {
 		internal.NewHolidayFromTime(internal.CatholicAscensionDay(year), "Ascension Day", nil),
 		internal.NewHolidayFromTime(internal.CatholicWhitMonday(year), "Whit Monday", nil),
 	}
-
-	return holidays
 }

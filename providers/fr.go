@@ -11,7 +11,7 @@ import (
 // FranceProvider provides public holidays for France
 type FranceProvider struct{}
 
-func (_ FranceProvider) RegisterHolidays(year int) []internal.Holiday {
+func (FranceProvider) RegisterHolidays(year int) []internal.Holiday {
 	return baseHolidaysFR(year)
 }
 

@@ -11,7 +11,7 @@ import (
 // AustraliaProvider provides public holidays for Australia and its states/territories
 type AustraliaProvider struct{}
 
-func (_ AustraliaProvider) RegisterHolidays(year int) []internal.Holiday {
+func (AustraliaProvider) RegisterHolidays(year int) []internal.Holiday {
 	holiday := baseHolidaysAU(year)
 	holiday = append(holiday, labourDayVariationsAU(year)...)
 	holiday = append(holiday, monarchBirthdayAU(year)...)

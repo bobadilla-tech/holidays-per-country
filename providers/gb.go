@@ -11,7 +11,7 @@ import (
 // UnitedKingdomProvider provides public holidays for the United Kingdom
 type UnitedKingdomProvider struct{}
 
-func (_ UnitedKingdomProvider) RegisterHolidays(year int) []internal.Holiday {
+func (UnitedKingdomProvider) RegisterHolidays(year int) []internal.Holiday {
 	firstMondayInAugust := internal.FindDay(year, time.August, time.Monday, 1)
 	lastMondayInAugust := internal.FindLastDay(year, time.August, time.Monday)
 

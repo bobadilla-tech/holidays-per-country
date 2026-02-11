@@ -11,7 +11,7 @@ import (
 // MexicoProvider provides public holidays for Mexico
 type MexicoProvider struct{}
 
-func (_ MexicoProvider) RegisterHolidays(year int) []internal.Holiday {
+func (MexicoProvider) RegisterHolidays(year int) []internal.Holiday {
 	firstMondayOfFebruary := internal.FindDay(year, time.February, time.Monday, 1)
 	thirdMondayOfMarch := internal.FindDay(year, time.March, time.Monday, 3)
 	thirdMondayOfNovember := internal.FindDay(year, time.November, time.Monday, 3)

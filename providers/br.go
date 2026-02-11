@@ -11,7 +11,7 @@ import (
 // BrazilProvider provides public holidays for Brazil
 type BrazilProvider struct{}
 
-func (_ BrazilProvider) RegisterHolidays(year int) []internal.Holiday {
+func (BrazilProvider) RegisterHolidays(year int) []internal.Holiday {
 	holiday := baseHolidaysBR(year)
 	if h := blackAwarenessDayBR(year); h != nil {
 		holiday = append(holiday, *h)

@@ -12,7 +12,7 @@ import (
 // JapanProvider provides public holidays for Japan
 type JapanProvider struct{}
 
-func (_ JapanProvider) RegisterHolidays(year int) []internal.Holiday {
+func (JapanProvider) RegisterHolidays(year int) []internal.Holiday {
 	secondMondayInJanuary := internal.FindDay(year, time.January, time.Monday, 2)
 	thirdMondayInJuly := internal.FindDay(year, time.July, time.Monday, 3)
 	thirdMondayInSeptember := internal.FindDay(year, time.September, time.Monday, 3)

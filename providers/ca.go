@@ -11,7 +11,7 @@ import (
 // CanadaProvider provides public holidays for Canada and its provinces
 type CanadaProvider struct{}
 
-func (_ CanadaProvider) RegisterHolidays(year int) []internal.Holiday {
+func (CanadaProvider) RegisterHolidays(year int) []internal.Holiday {
 	thirdMondayInFebruary := internal.FindDay(year, time.February, time.Monday, 3)
 	mondayOnOrBeforeMay25 := internal.FindDayBefore(time.Date(year, time.May, 25, 0, 0, 0, 0, time.UTC), time.Monday)
 	firstMondayInAugust := internal.FindDay(year, time.August, time.Monday, 1)

@@ -11,7 +11,7 @@ import (
 // UnitedStatesProvider provides public holidays for the United States
 type UnitedStatesProvider struct{}
 
-func (_ UnitedStatesProvider) RegisterHolidays(year int) []internal.Holiday {
+func (UnitedStatesProvider) RegisterHolidays(year int) []internal.Holiday {
 	holiday := baseHolidaysUS(year)
 	if h := juneteenthUS(year); h != nil {
 		holiday = append(holiday, *h)

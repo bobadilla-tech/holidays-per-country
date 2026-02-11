@@ -1,3 +1,5 @@
+// Package internal provides shared utilities for calculating holidays across different countries.
+// This file contains functions for calculating Catholic/Christian holiday dates.
 package internal
 
 import (
@@ -6,6 +8,7 @@ import (
 
 var cache = map[int]time.Time{}
 
+// CatholicEasterSunday calculates the date of Easter Sunday for a given year using the Meeus/Jones/Butcher algorithm.
 func CatholicEasterSunday(year int) time.Time {
 	if cached, ok := cache[year]; ok {
 		return cached
@@ -31,42 +34,42 @@ func CatholicEasterSunday(year int) time.Time {
 	return result
 }
 
-// Returns Good Friday (Easter - 2 days)
+// CatholicGoodFriday returns Good Friday (Easter - 2 days).
 func CatholicGoodFriday(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, -2)
 }
 
-// Returns Holy Saturday (Easter - 1 day)
+// CatholicEasterSaturday returns Holy Saturday (Easter - 1 day).
 func CatholicEasterSaturday(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, -1)
 }
 
-// Returns Easter Monday (Easter + 1 day)
+// CatholicEasterMonday returns Easter Monday (Easter + 1 day).
 func CatholicEasterMonday(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, 1)
 }
 
-// Returns Maundy Thursday (Easter - 3 days)
+// CatholicMaundyThursday returns Maundy Thursday (Easter - 3 days).
 func CatholicMaundyThursday(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, -3)
 }
 
-// Returns Ascension Day (Easter + 39 days)
+// CatholicAscensionDay returns Ascension Day (Easter + 39 days).
 func CatholicAscensionDay(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, 39)
 }
 
-// Returns Pentecost (Easter + 49 days)
+// CatholicPentecost returns Pentecost (Easter + 49 days).
 func CatholicPentecost(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, 49)
 }
 
-// Returns Whit Monday (Easter + 50 days)
+// CatholicWhitMonday returns Whit Monday (Easter + 50 days).
 func CatholicWhitMonday(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, 50)
 }
 
-// Returns Corpus Christi (Easter + 60 days)
+// CatholicCorpusChristi returns Corpus Christi (Easter + 60 days).
 func CatholicCorpusChristi(year int) time.Time {
 	return CatholicEasterSunday(year).AddDate(0, 0, 60)
 }

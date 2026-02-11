@@ -11,7 +11,7 @@ import (
 // ChinaProvider provides public holidays for China
 type ChinaProvider struct{}
 
-func (_ ChinaProvider) RegisterHolidays(year int) []internal.Holiday {
+func (ChinaProvider) RegisterHolidays(year int) []internal.Holiday {
 	holiday := []internal.Holiday{
 		internal.NewHoliday(year, time.January, 1, "New Year's Day", nil),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", nil),

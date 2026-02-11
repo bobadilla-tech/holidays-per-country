@@ -11,7 +11,7 @@ import (
 // SpainProvider provides public holidays for Spain and its autonomous communities
 type SpainProvider struct{}
 
-func (_ SpainProvider) RegisterHolidays(year int) []internal.Holiday {
+func (SpainProvider) RegisterHolidays(year int) []internal.Holiday {
 	holiday := []internal.Holiday{
 		internal.NewHoliday(year, time.January, 6, "Epiphany", nil),
 		internal.NewHoliday(year, time.May, 1, "Labour Day", nil),

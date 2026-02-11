@@ -11,7 +11,7 @@ import (
 // GermanyProvider provides public holidays for Germany and its federal states
 type GermanyProvider struct{}
 
-func (_ GermanyProvider) RegisterHolidays(year int) []internal.Holiday {
+func (GermanyProvider) RegisterHolidays(year int) []internal.Holiday {
 	holiday := baseHolidaysDE(year)
 	if h := internationalWomensDayDE(year); h != nil {
 		holiday = append(holiday, *h)

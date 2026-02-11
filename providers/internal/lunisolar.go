@@ -1,3 +1,5 @@
+// Package internal provides shared utilities for calculating holidays across different countries.
+// This file contains functions for converting Chinese lunisolar calendar dates to Gregorian dates.
 package internal
 
 import "time"
@@ -31,6 +33,9 @@ var chineseLunarInfo = []int{
 	0x0d520,
 }
 
+// ChineseLunisolarToGregorian converts a Chinese lunisolar calendar date to a Gregorian calendar date.
+// It returns the converted date and a boolean indicating success.
+// The conversion is only valid for years between 1900 and 2100.
 func ChineseLunisolarToGregorian(year, month, day int) (time.Time, bool) {
 	if year < chineseLunisolarMinYear || year > chineseLunisolarMaxYear {
 		return time.Time{}, false

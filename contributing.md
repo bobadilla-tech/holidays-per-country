@@ -1,6 +1,7 @@
 # Contributing to Holidays Per Country
 
-Thank you for your interest in contributing to this project! We welcome contributions from the community.
+Thank you for your interest in contributing to this project! We welcome
+contributions from the community.
 
 ## Table of Contents
 
@@ -14,7 +15,8 @@ Thank you for your interest in contributing to this project! We welcome contribu
 
 ## Code of Conduct
 
-This project adheres to a code of conduct that all contributors are expected to follow. Please be respectful and constructive in your interactions.
+This project adheres to a code of conduct that all contributors are expected to
+follow. Please be respectful and constructive in your interactions.
 
 ## Getting Started
 
@@ -38,7 +40,8 @@ This project adheres to a code of conduct that all contributors are expected to 
 
 ### Reporting Bugs
 
-- Check if the issue already exists in the [issue tracker](https://github.com/bobadilla-tech/holidays-per-country/issues)
+- Check if the issue already exists in the
+  [issue tracker](https://github.com/bobadilla-tech/holidays-per-country/issues)
 - If not, create a new issue with:
   - Clear description of the bug
   - Steps to reproduce
@@ -63,7 +66,8 @@ To add support for a new country's holidays:
 
 ### 1. Create Provider File
 
-Create a new file in `providers/` named `{countrycode}.go` (lowercase ISO 3166-1 alpha-2 code):
+Create a new file in `providers/` named `{countrycode}.go` (lowercase ISO 3166-1
+alpha-2 code):
 
 ```go
 package providers
@@ -91,23 +95,27 @@ Add your provider to the registry in the appropriate initialization file.
 Use helper functions for different holiday types:
 
 **Fixed-date holidays:**
+
 ```go
 internal.NewHoliday(year, time.January, 1, "New Year's Day", nil)
 ```
 
 **Movable holidays:**
+
 ```go
 easter := internal.Easter(year)
 internal.NewHolidayFromTime(easter, "Easter Sunday", nil)
 ```
 
 **Day-of-week based holidays:**
+
 ```go
 firstMonday := internal.FindDay(year, time.September, time.Monday, 1)
 internal.NewHolidayFromTime(firstMonday, "Labor Day", nil)
 ```
 
 **Subdivision-specific holidays:**
+
 ```go
 internal.NewHoliday(year, time.June, 24, "Saint-Jean-Baptiste Day", []string{"CA-QC"})
 ```
@@ -115,7 +123,8 @@ internal.NewHoliday(year, time.June, 24, "Saint-Jean-Baptiste Day", []string{"CA
 ### 4. Handle Special Cases
 
 - **Historical changes**: Use conditionals for holidays that changed over time
-- **Year-specific rules**: Check year ranges for holidays that were added or removed
+- **Year-specific rules**: Check year ranges for holidays that were added or
+  removed
 - **Subdivisions**: Use ISO 3166-2 codes for state/province-specific holidays
 
 ### 5. Add Tests
@@ -171,6 +180,7 @@ test: add tests for Chinese lunar calendar
 ```
 
 Prefix types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -194,7 +204,8 @@ Reuse existing helper functions from `providers/internal/`:
 - `internal.GoodFriday(year)` - Good Friday
 - `internal.FindDay(year, month, weekday, occurrence)` - Nth weekday of month
 - `internal.FindLastDay(year, month, weekday)` - Last weekday of month
-- `internal.ChineseLunarToGregorian(year, month, day)` - Lunar to Gregorian conversion
+- `internal.ChineseLunarToGregorian(year, month, day)` - Lunar to Gregorian
+  conversion
 
 ## Testing
 
@@ -269,7 +280,8 @@ go tool cover -html=coverage.out
 
 If you have questions or need help:
 
-- Check existing [issues](https://github.com/bobadilla-tech/holidays-per-country/issues)
+- Check existing
+  [issues](https://github.com/bobadilla-tech/holidays-per-country/issues)
 - Open a new issue for discussion
 - Tag maintainers if needed
 

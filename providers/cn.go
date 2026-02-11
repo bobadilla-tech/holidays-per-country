@@ -1,3 +1,5 @@
+// Package providers implements holiday providers for various countries.
+// This file contains the provider for China (CN).
 package providers
 
 import (
@@ -6,6 +8,7 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
+// ChinaProvider provides public holidays for China
 type ChinaProvider struct{}
 
 func (_ ChinaProvider) RegisterHolidays(year int) []internal.Holiday {

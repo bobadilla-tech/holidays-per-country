@@ -1,3 +1,5 @@
+// Package providers implements holiday providers for various countries.
+// This file contains the provider for Australia (AU).
 package providers
 
 import (
@@ -6,6 +8,7 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
+// AustraliaProvider provides public holidays for Australia and its states/territories
 type AustraliaProvider struct{}
 
 func (_ AustraliaProvider) RegisterHolidays(year int) []internal.Holiday {

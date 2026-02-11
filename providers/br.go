@@ -1,3 +1,5 @@
+// Package providers implements holiday providers for various countries.
+// This file contains the provider for Brazil (BR).
 package providers
 
 import (
@@ -6,6 +8,7 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
+// BrazilProvider provides public holidays for Brazil
 type BrazilProvider struct{}
 
 func (_ BrazilProvider) RegisterHolidays(year int) []internal.Holiday {

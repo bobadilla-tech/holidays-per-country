@@ -1,3 +1,5 @@
+// Package providers implements holiday providers for various countries.
+// This file contains the provider for Mexico (MX).
 package providers
 
 import (
@@ -6,6 +8,7 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
+// MexicoProvider provides public holidays for Mexico
 type MexicoProvider struct{}
 
 func (_ MexicoProvider) RegisterHolidays(year int) []internal.Holiday {

@@ -67,6 +67,7 @@ import (
 )
 
 func main() {
+    // Canada holidays for 2024
     holidays := holidays.GetHolidays("CA", 2024)
 
     for _, holiday := range holidays {

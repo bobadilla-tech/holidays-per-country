@@ -1,3 +1,5 @@
+// Package providers implements holiday providers for various countries.
+// This file contains the provider for Spain (ES).
 package providers
 
 import (
@@ -6,6 +8,7 @@ import (
 	"github.com/bobadilla-tech/holidays-per-country/providers/internal"
 )
 
+// SpainProvider provides public holidays for Spain and its autonomous communities
 type SpainProvider struct{}
 
 func (_ SpainProvider) RegisterHolidays(year int) []internal.Holiday {

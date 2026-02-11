@@ -18,11 +18,13 @@ func IsHoliday(date time.Time, countryCode string) bool {
 }
 
 func GetHolidays(countryCode string, year int) []Holiday {
-	if provider, exists := registry[countryCode]; exists {
-		return provider.RegisterHolidays(year)
+	if holidays, exists := holidaysCache[countryCode]; exists {
+		return holidays
 	}
 
-	return []Holiday{}
+	holidays := registry[countryCode].RegisterHolidays(year)
+	holidaysCache[countryCode] = holidays
+	return holidays
 }
 
 func GetHolidaysInRange(countryCode string, startDate, endDate time.Time) []Holiday {

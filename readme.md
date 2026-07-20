@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/bobadilla-tech/holidays-per-country/actions/workflows/ci.yml/badge.svg)](https://github.com/bobadilla-tech/holidays-per-country/actions/workflows/ci.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/bobadilla-tech/holidays-per-country.svg)](https://pkg.go.dev/github.com/bobadilla-tech/holidays-per-country)
-[![Go Report Card](https://goreportcard.com/badge/github.com/bobadilla-tech/holidays-per-country)](https://goreportcard.com/report/github.com/bobadilla-tech/holidays-per-country)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A pure Go library for determining public holidays across different countries and
@@ -29,7 +28,7 @@ events) and country-specific rules.
 
 ## 🔱 Built for Requiems API
 
-This library was specifically built to power the **Time APIs** at [**Requiems**](https://requiems.xyz/apis?category=time), a production-ready API platform serving developers worldwide.
+This library was specifically built to power the **Time APIs** at [**Requiems**](https://requiems.xyz/en/categories/places), a production-ready API platform serving developers worldwide.
 
 **Most Popular Time APIs:**
 

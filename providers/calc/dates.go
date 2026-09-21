@@ -74,3 +74,49 @@ func FindDayBetween(startDate, endDate time.Time, weekday time.Weekday) time.Tim
 func daysInMonth(year int, month time.Month) int {
 	return time.Date(year, month+1, 0, 0, 0, 0, 0, time.UTC).Day()
 }
+
+// FindNextAvailableDay returns the first date on or after start that is not
+// already present in taken. Used to implement "substitute holiday" rules,
+// where a holiday falling on a non-working day is moved forward to the next
+// day that isn't already a holiday.
+func FindNextAvailableDay(start time.Time, taken map[string]bool) time.Time {
+	candidate := start
+	for taken[candidate.Format("2006-01-02")] {
+		candidate = candidate.AddDate(0, 0, 1)
+	}
+	return candidate
+}
+
+// DateKey formats a date as "YYYY-MM-DD" for use as a map key when tracking
+// which dates are already holidays.
+func DateKey(t time.Time) string {
+	return t.Format("2006-01-02")
+}
+
+// HolidayAppliesToAny reports whether a holiday's subdivisions overlap with
+// the given target subdivisions. An empty list on either side means
+// "nationwide", which always overlaps.
+func HolidayAppliesToAny(holidaySubdivisions, targetSubdivisions []string) bool {
+	if len(holidaySubdivisions) == 0 || len(targetSubdivisions) == 0 {
+		return true
+	}
+	for _, t := range targetSubdivisions {
+		for _, h := range holidaySubdivisions {
+			if t == h {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// FindPreviousAvailableDay returns the first date on or before start that is
+// not already present in taken. Used for "observed" rules that shift a
+// holiday backward (e.g. US: Saturday holiday -> observed Friday).
+func FindPreviousAvailableDay(start time.Time, taken map[string]bool) time.Time {
+	candidate := start
+	for taken[DateKey(candidate)] {
+		candidate = candidate.AddDate(0, 0, -1)
+	}
+	return candidate
+}

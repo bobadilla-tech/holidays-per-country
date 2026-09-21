@@ -45,7 +45,37 @@ func (JapanProvider) RegisterHolidays(year int) []calc.Holiday {
 		holiday = append(holiday, *h)
 	}
 
+	holiday = applyFurikaeKyujitsu(holiday)
+
 	return holiday
+}
+
+// applyFurikaeKyujitsu implements Japan's substitute-holiday rule (振替休日):
+// if a holiday falls on a Sunday, the next day that is not already a
+// holiday becomes a substitute holiday. This can skip forward multiple days
+// when consecutive holidays are already in place (e.g. Golden Week, where
+// Greenery Day on Sunday 4-May is followed by Children's Day on Monday
+// 5-May, pushing the substitute to Tuesday 6-May).
+func applyFurikaeKyujitsu(holidays []calc.Holiday) []calc.Holiday {
+	taken := make(map[string]bool, len(holidays))
+	for _, h := range holidays {
+		taken[calc.DateKey(h.Date)] = true
+	}
+
+	var substitutes []calc.Holiday
+	for _, h := range holidays {
+		if h.Date.Weekday() != time.Sunday {
+			continue
+		}
+
+		substituteDate := calc.FindNextAvailableDay(h.Date.AddDate(0, 0, 1), taken)
+		substitute := calc.NewHolidayFromTime(substituteDate, h.Name+" (Substitute Holiday)", h.Subdivisions)
+
+		substitutes = append(substitutes, substitute)
+		taken[calc.DateKey(substituteDate)] = true
+	}
+
+	return append(holidays, substitutes...)
 }
 
 func emperorsBirthdayJP(year int) *calc.Holiday {

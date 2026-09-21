@@ -74,3 +74,21 @@ func FindDayBetween(startDate, endDate time.Time, weekday time.Weekday) time.Tim
 func daysInMonth(year int, month time.Month) int {
 	return time.Date(year, month+1, 0, 0, 0, 0, 0, time.UTC).Day()
 }
+
+// FindNextAvailableDay returns the first date on or after start that is not
+// already present in taken. Used to implement "substitute holiday" rules,
+// where a holiday falling on a non-working day is moved forward to the next
+// day that isn't already a holiday.
+func FindNextAvailableDay(start time.Time, taken map[string]bool) time.Time {
+	candidate := start
+	for taken[candidate.Format("2006-01-02")] {
+		candidate = candidate.AddDate(0, 0, 1)
+	}
+	return candidate
+}
+
+// DateKey formats a date as "YYYY-MM-DD" for use as a map key when tracking
+// which dates are already holidays.
+func DateKey(t time.Time) string {
+	return t.Format("2006-01-02")
+}

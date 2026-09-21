@@ -109,3 +109,14 @@ func HolidayAppliesToAny(holidaySubdivisions, targetSubdivisions []string) bool 
 	}
 	return false
 }
+
+// FindPreviousAvailableDay returns the first date on or before start that is
+// not already present in taken. Used for "observed" rules that shift a
+// holiday backward (e.g. US: Saturday holiday -> observed Friday).
+func FindPreviousAvailableDay(start time.Time, taken map[string]bool) time.Time {
+	candidate := start
+	for taken[DateKey(candidate)] {
+		candidate = candidate.AddDate(0, 0, -1)
+	}
+	return candidate
+}

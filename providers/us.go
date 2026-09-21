@@ -32,6 +32,8 @@ func (UnitedStatesProvider) RegisterHolidays(year int) []calc.Holiday {
 		holiday = append(holiday, *h)
 	}
 
+	holiday = applyWeekendObservedRuleUS(holiday)
+
 	return holiday
 }
 
@@ -147,4 +149,44 @@ func indigenousPeoplesDayUS(year int) *calc.Holiday {
 		Fixed:        false,
 	}
 	return &holiday
+}
+
+// applyWeekendObservedRuleUS implements the US federal "in lieu" convention:
+// a fixed-date holiday falling on Saturday is observed the preceding Friday;
+// one falling on Sunday is observed the following Monday. Only Fixed
+// holidays are affected — floating holidays (MLK Day, Memorial Day, etc.)
+// are already pinned to a weekday and never need shifting.
+func applyWeekendObservedRuleUS(holidays []calc.Holiday) []calc.Holiday {
+	taken := make(map[string]bool, len(holidays))
+	bySub := make(map[string][]calc.Holiday)
+	for _, h := range holidays {
+		taken[calc.DateKey(h.Date)] = true
+	}
+
+	var observed []calc.Holiday
+	for _, h := range holidays {
+		if !h.Fixed {
+			continue
+		}
+
+		var candidate time.Time
+		switch h.Date.Weekday() {
+		case time.Saturday:
+			candidate = calc.FindPreviousAvailableDay(h.Date.AddDate(0, 0, -1), taken)
+		case time.Sunday:
+			candidate = calc.FindNextAvailableDay(h.Date.AddDate(0, 0, 1), taken)
+		default:
+			continue
+		}
+
+		obs := calc.NewHolidayFromTime(candidate, h.Name+" (Observed)", h.Subdivisions)
+		observed = append(observed, obs)
+		taken[calc.DateKey(candidate)] = true
+	}
+
+	_ = bySub // reserved: subdivision-aware clash checks aren't needed yet since
+	// US Fixed holidays observed here are all nationwide (nil Subdivisions);
+	// revisit if a Fixed regional US holiday is ever added.
+
+	return append(holidays, observed...)
 }

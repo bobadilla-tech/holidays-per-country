@@ -92,3 +92,20 @@ func FindNextAvailableDay(start time.Time, taken map[string]bool) time.Time {
 func DateKey(t time.Time) string {
 	return t.Format("2006-01-02")
 }
+
+// HolidayAppliesToAny reports whether a holiday's subdivisions overlap with
+// the given target subdivisions. An empty list on either side means
+// "nationwide", which always overlaps.
+func HolidayAppliesToAny(holidaySubdivisions, targetSubdivisions []string) bool {
+	if len(holidaySubdivisions) == 0 || len(targetSubdivisions) == 0 {
+		return true
+	}
+	for _, t := range targetSubdivisions {
+		for _, h := range holidaySubdivisions {
+			if t == h {
+				return true
+			}
+		}
+	}
+	return false
+}

@@ -48,6 +48,8 @@ func (UnitedKingdomProvider) RegisterHolidays(year int) []calc.Holiday {
 		holiday = append(holiday, *h)
 	}
 
+	holiday = applyWeekendBankHolidayShift(holiday)
+
 	return holiday
 }
 
@@ -108,4 +110,43 @@ func earlyMayBankHoliday(year int) *calc.Holiday {
 	firstMondayInMay := calc.FindDay(year, time.May, time.Monday, 1)
 	holiday := calc.NewHolidayFromTime(firstMondayInMay, "Early May Bank Holiday", nil)
 	return &holiday
+}
+
+// applyWeekendBankHolidayShift implements the UK "in lieu" convention: when
+// a bank holiday falls on a Saturday or Sunday, the next day that is not a
+// weekend and not already a holiday applicable to the same subdivision(s)
+// becomes a substitute holiday.
+func applyWeekendBankHolidayShift(holidays []calc.Holiday) []calc.Holiday {
+	all := append([]calc.Holiday{}, holidays...)
+	var substitutes []calc.Holiday
+
+	for _, h := range holidays {
+		wd := h.Date.Weekday()
+		if wd != time.Saturday && wd != time.Sunday {
+			continue
+		}
+
+		candidate := h.Date.AddDate(0, 0, 1)
+		for isWeekendOrClashes(candidate, h.Subdivisions, all) {
+			candidate = candidate.AddDate(0, 0, 1)
+		}
+
+		sub := calc.NewHolidayFromTime(candidate, h.Name+" (Substitute Day)", h.Subdivisions)
+		substitutes = append(substitutes, sub)
+		all = append(all, sub)
+	}
+
+	return append(holidays, substitutes...)
+}
+
+func isWeekendOrClashes(date time.Time, subdivisions []string, existing []calc.Holiday) bool {
+	if date.Weekday() == time.Saturday || date.Weekday() == time.Sunday {
+		return true
+	}
+	for _, h := range existing {
+		if h.Date.Equal(date) && calc.HolidayAppliesToAny(h.Subdivisions, subdivisions) {
+			return true
+		}
+	}
+	return false
 }
